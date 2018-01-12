@@ -5,7 +5,7 @@ public class CreditCard {
     private int CUSTOMER_ID;
     private int CARD_NUMBER;
     private String BRAND;
-    private int SECURITY_NUMBER;
+    private String SECURITY_NUMBER;
     private String EXPERATION_DATE;
     private String NAME_ON_CARD;
     private String STREET;
@@ -14,7 +14,7 @@ public class CreditCard {
 
     @Override
     public String toString() {
-        return "CreditCard{" + "CREDIT_ID=" + CREDIT_ID + ", CUSTOMER_ID=" + CUSTOMER_ID + ", CARD_NUMBER=" + CARD_NUMBER + ", BRAND=" + BRAND + ", SECURITY_NUMBER=" + SECURITY_NUMBER + ", EXPERATION_DATE=" + EXPERATION_DATE + ", NAME_ON_CARD=" + NAME_ON_CARD + ", STREET=" + STREET + ", CITY=" + CITY + ", AREA_CODE=" + AREA_CODE + '}';
+        return "CreditCard{" + "CREDIT_ID= " + CREDIT_ID + ", CUSTOMER_ID= " + CUSTOMER_ID + ", CARD_NUMBER= " + CARD_NUMBER + ", BRAND= " + BRAND + ", SECURITY_NUMBER= " + SECURITY_NUMBER + ", EXPERATION_DATE= " + EXPERATION_DATE + ", NAME_ON_CARD= " + NAME_ON_CARD + ", STREET= " + STREET + ", CITY= " + CITY + ", AREA_CODE= " + AREA_CODE + '}';
     }
 
     public int getCREDIT_ID() {
@@ -49,11 +49,11 @@ public class CreditCard {
         this.BRAND = BRAND;
     }
 
-    public int getSECURITY_NUMBER() {
+    public String getSECURITY_NUMBER() {
         return SECURITY_NUMBER;
     }
 
-    public void setSECURITY_NUMBER(int SECURITY_NUMBER) {
+    public void setSECURITY_NUMBER(String SECURITY_NUMBER) {
         this.SECURITY_NUMBER = SECURITY_NUMBER;
     }
 

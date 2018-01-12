@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class CreditCards {
     
+    
     public void viewWholeTable(){
         try{
             Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
@@ -17,21 +18,21 @@ public class CreditCards {
             while (rs.next())
             {
                 System.out.println(
-                        rs.getString("CREDIT_ID") +
-                        rs.getString("CUSTOMER_ID") +
-                        rs.getString("CARD_NUMBER") +
-                        rs.getString("BRAND") +
-                        rs.getString("SECURITY_NUMBER") +
-                        rs.getString("EXPERATION_DATE") +
-                        rs.getString("NAME_ON_CARD") +
-                        rs.getString("STREET") +
-                        rs.getString("CITY") +
-                        rs.getString("AREA_CODE"));  
+                        "CREDIT_ID: "       + rs.getString("CREDIT_ID") +
+                        "CUSTOMER_ID: "     + rs.getString("CUSTOMER_ID") +
+                        "CARD_NUMBER: "     + rs.getString("CARD_NUMBER") +
+                        "BRAND: "           + rs.getString("BRAND") +
+                        "SECURITY_NUMBER "  + rs.getString("SECURITY_NUMBER") +
+                        "EXPERATION_DATE: " + rs.getString("EXPERATION_DATE") +
+                        "NAME_ON_CARD: "    + rs.getString("NAME_ON_CARD") +
+                        "STREET: "          + rs.getString("STREET") +
+                        "CITY: "            + rs.getString("CITY") +
+                        "AREA_CODE: "       + rs.getString("AREA_CODE"));  
             }
             con.close();
         }
         catch(Exception e){
-            System.out.println(e);
+            System.out.println(e + "jajajaj");
         } 
     }
     
@@ -51,7 +52,7 @@ public class CreditCards {
             Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
             Statement stmt = con.createStatement();
             ResultSet rs=stmt.executeQuery("INSERT INTO CREDIT_CARDS VALUES (" 
-                                            +CREDIT_ID + ","
+                                            + CREDIT_ID + ","
                                             + CUSTOMER_ID + ","
                                             + CARD_NUMBER + ",'"
                                             + BRAND + "',"
@@ -68,6 +69,161 @@ public class CreditCards {
         } 
     }
     
+    public void addCard(int CREDIT_ID, int CUSTOMER_ID, int CARD_NUMBER, String BRAND, int SECURITY_NUMBER, String EXPERATION_DATE, String NAME_ON_CARD, String STREET, String CITY,int AREA_CODE){
+        try{
+            Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
+            Statement stmt = con.createStatement();
+            ResultSet rs=stmt.executeQuery("INSERT INTO CREDIT_CARDS VALUES (" 
+                                            + CREDIT_ID + ","
+                                            + CUSTOMER_ID + ","
+                                            + CARD_NUMBER + ",'"
+                                            + BRAND + "',"
+                                            + SECURITY_NUMBER + ",'"
+                                            + EXPERATION_DATE + "','"
+                                            + NAME_ON_CARD + "','"
+                                            + STREET + "','"
+                                            + CITY + "',"
+                                            + AREA_CODE + ")");
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        } 
+    }
+    
+    // Im Not sure if this should be used***************************************
+    public ArrayList getTableAsArrayList(){
+        ArrayList listOfCards = new ArrayList();
+        
+        try{
+            Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
+            Statement stmt = con.createStatement();
+            ResultSet rs=stmt.executeQuery("SELECT * FROM CREDIT_CARDS");
+            while (rs.next())
+            {
+                CreditCard card = new CreditCard();
+                card.setCREDIT_ID(rs.getInt("CREDIT_ID"));
+                card.setCUSTOMER_ID(rs.getInt("CUSTOMER_ID")); 
+                card.setCARD_NUMBER(rs.getInt("CARD_NUMBER"));
+                card.setBRAND(rs.getString("BRAND")); 
+                card.setSECURITY_NUMBER(rs.getString("SECURITY_NUMBER"));
+                card.setEXPERATION_DATE(rs.getString("EXPERATION_DATE"));
+                card.setNAME_ON_CARD(rs.getString("NAME_ON_CARD")); 
+                card.setSTREET(rs.getString("STREET")); 
+                card.setCITY(rs.getString("CITY")); 
+                card.setAREA_CODE(rs.getInt("AREA_CODE")); 
+                listOfCards.add(card);
+            }
+            con.close();
+            return listOfCards;
+        }
+        catch(Exception e){
+            System.out.println(e);
+            return null;
+        } 
+    }
+    
+    public ArrayList getCreditCardsByCustomer_idAsArrayList(int Customer_ID){
+        ArrayList listOfCards = new ArrayList();
+        
+        try{
+            Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
+            Statement stmt = con.createStatement();
+            ResultSet rs=stmt.executeQuery("SELECT * FROM CREDIT_CARDS WHERE CUSTOMER_ID =" + Customer_ID);
+            while (rs.next())
+            {
+                CreditCard card = new CreditCard();
+                card.setCREDIT_ID(rs.getInt("CREDIT_ID"));
+                card.setCUSTOMER_ID(rs.getInt("CUSTOMER_ID")); 
+                card.setCARD_NUMBER(rs.getInt("CARD_NUMBER"));
+                card.setBRAND(rs.getString("BRAND")); 
+                card.setSECURITY_NUMBER(rs.getString("SECURITY_NUMBER"));
+                card.setEXPERATION_DATE(rs.getString("EXPERATION_DATE"));
+                card.setNAME_ON_CARD(rs.getString("NAME_ON_CARD")); 
+                card.setSTREET(rs.getString("STREET")); 
+                card.setCITY(rs.getString("CITY")); 
+                card.setAREA_CODE(rs.getInt("AREA_CODE")); 
+                listOfCards.add(card);
+            }
+            con.close();
+            return listOfCards;
+        }
+        catch(Exception e){
+            System.out.println(e);
+            return null;
+        } 
+    }
+    
+     public ArrayList getCreditCardsByCredit_idAsArrayList(int Credit_ID){
+        ArrayList listOfCards = new ArrayList();
+        
+        try{
+            Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
+            Statement stmt = con.createStatement();
+            ResultSet rs=stmt.executeQuery("SELECT * FROM CREDIT_CARDS WHERE Credit_ID =" + Credit_ID);
+            while (rs.next())
+            {
+                CreditCard card = new CreditCard();
+                card.setCREDIT_ID(rs.getInt("CREDIT_ID"));
+                card.setCUSTOMER_ID(rs.getInt("CUSTOMER_ID")); 
+                card.setCARD_NUMBER(rs.getInt("CARD_NUMBER"));
+                card.setBRAND(rs.getString("BRAND")); 
+                card.setSECURITY_NUMBER(rs.getString("SECURITY_NUMBER"));
+                card.setEXPERATION_DATE(rs.getString("EXPERATION_DATE"));
+                card.setNAME_ON_CARD(rs.getString("NAME_ON_CARD")); 
+                card.setSTREET(rs.getString("STREET")); 
+                card.setCITY(rs.getString("CITY")); 
+                card.setAREA_CODE(rs.getInt("AREA_CODE")); 
+                listOfCards.add(card);
+            }
+            con.close();
+            return listOfCards;
+        }
+        catch(Exception e){
+            System.out.println(e);
+            return null;
+        } 
+    }
+    
+    public void deleteEntryByCredit_ID(int CREDIT_ID){
+        try{
+            Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
+            Statement stmt = con.createStatement();
+            ResultSet rs=stmt.executeQuery("DELETE FROM CREDIT_CARDS WHERE CREDIT_ID =" + CREDIT_ID);
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        } 
+    }
+    
+    public void deleteEntryByCustomer_ID(int CUSTOMER_ID){
+        try{
+            Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
+            Statement stmt = con.createStatement();
+            ResultSet rs=stmt.executeQuery("DELETE FROM CREDIT_CARDS WHERE CUSTOMER_ID =" + CUSTOMER_ID);
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        } 
+    }
+    
+    public void updateEntryByCredit_ID(int Credit_ID, String field, String newData){
+        try{
+            Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
+            Statement stmt = con.createStatement();
+            ResultSet rs=stmt.executeQuery("UPDATE CREDIT_CARDS SET " + field +" ='" + newData +"' WHERE CREDIT_ID =" + Credit_ID);
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        } 
+    }
+    
+    
+    
+    //==========================================
     public String getUserInputString(String msg)
     {
         String results;
@@ -118,60 +274,13 @@ public class CreditCards {
         } 
     }
     
-    public ArrayList getTableAsArrayList(){
-        ArrayList listOfCards = new ArrayList();
-        
-        try{
-            Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
-            Statement stmt = con.createStatement();
-            ResultSet rs=stmt.executeQuery("SELECT * FROM CREDIT_CARDS");
-            while (rs.next())
-            {
-                CreditCard card = new CreditCard();
-                card.setCREDIT_ID(rs.getInt("CREDIT_ID"));
-                card.setCUSTOMER_ID(rs.getInt("CUSTOMER_ID")); 
-                card.setCARD_NUMBER(rs.getInt("CARD_NUMBER"));
-                card.setBRAND(rs.getString("BRAND")); 
-                card.setSECURITY_NUMBER(rs.getInt("SECURITY_NUMBER"));
-                card.setEXPERATION_DATE(rs.getString("EXPERATION_DATE"));
-                card.setNAME_ON_CARD(rs.getString("NAME_ON_CARD")); 
-                card.setSTREET(rs.getString("STREET")); 
-                card.setCITY(rs.getString("CITY")); 
-                card.setAREA_CODE(rs.getInt("AREA_CODE")); 
-                listOfCards.add(card);
-            }
-            con.close();
-            return listOfCards;
-        }
-        catch(Exception e){
-            System.out.println(e);
-            return null;
-        } 
-    }
     
-    public void deleteEntryByCredit_ID(int CREDIT_ID){
-        try{
-            Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
-            Statement stmt = con.createStatement();
-            ResultSet rs=stmt.executeQuery("DELETE FROM CREDIT_CARDS WHERE CREDIT_ID =" + CREDIT_ID);
-            con.close();
-        }
-        catch(Exception e){
-            System.out.println(e);
-        } 
-    }
     
-    public void deleteEntryByCustomer_ID(int CUSTOMER_ID){
-        try{
-            Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
-            Statement stmt = con.createStatement();
-            ResultSet rs=stmt.executeQuery("DELETE FROM CREDIT_CARDS WHERE CUSTOMER_ID =" + CUSTOMER_ID);
-            con.close();
-        }
-        catch(Exception e){
-            System.out.println(e);
-        } 
-    }
+    
+    
+    
+
+    
 }
 
 
