@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class ConfirmationUI {
     
-    private void mainConfirmationView(){
+    void mainConfirmationView(){
         //display packages and information and pricing
         
         System.out.println("Please choose and enter an option:\n"
@@ -28,7 +28,9 @@ public class ConfirmationUI {
         
         switch(userInput){
             case 1:
-                
+                //Grabs the input method for the Orders data access layer
+            case 2: 
+                //erase everything, go back to main menu
         }
         
     }
