@@ -6,6 +6,7 @@
 package MummysRestaurant;
 
 import java.util.Scanner;
+import MummysRestaurant.ConfirmationUI;
 //import the Package
 
 /**
@@ -19,7 +20,9 @@ public class PackageOrderUI {
         
         //display the list of packages
         
-        System.out.println("Please select and enter payment type:\n[1]: For cash\n[2]: For Credit"
+        System.out.println("Please select and enter payment type:\n"
+                + "[1]: For cash\n"
+                + "[2]: For Credit"
                 + "\n[3]: Return to the menu");
         
         Scanner scanner = new Scanner(System.in);
@@ -28,17 +31,13 @@ public class PackageOrderUI {
         
         switch (userInput) {
             case 1: 
-                //todo: grab the CashUI method
+                ConfirmationUI confirmation = new ConfirmationUI();
+                confirmation.mainConfirmationView();
             case 2:
                 //todo: grab the PaymentUI method
             case 3: 
                 Package menu = new Package();
                 menu.printMenu();
         }
-    }
-    
-    
-    public static void main(String[] args) {
-        mainViewofPackageOrder();
     }
 }
