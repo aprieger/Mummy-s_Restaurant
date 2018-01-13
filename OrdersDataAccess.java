@@ -7,11 +7,12 @@ import org.json.JSONObject;
 
 public class OrdersDataAccess {
     
-    public static JSONObject getAllOrdersForToday(String presentDate) throws SQLException{
+    //Date must be passed in this format "DD-MM-YY", double quotes included
+    public static ArrayList<JSONObject> getAllOrdersForToday(String deliveryDate) throws SQLException, JSONException{
         try {
-            JSONObject jsonAllRows = new JSONObject();
+
             //query to be used to retrieve all rows from Orders
-            String sqlQuery = "select * from orders where DELIVERY_DATE = " + presentDate;
+            String sqlQuery = "select * from orders where delivery_date like '" + deliveryDate + "%'";
             //established connectioned to oracle account through a driver
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
             //established a statement connection
@@ -19,14 +20,24 @@ public class OrdersDataAccess {
             //executes the SQL query and returns a ResultSet object
             ResultSet queryResults = statement.executeQuery(sqlQuery);
             
+            ArrayList<JSONObject> listOfColumnValuePairs = new ArrayList();
             while(queryResults.next()) {
-                //todo: convert ResultSet to JSon object
+                int totalColumns = queryResults.getMetaData().getColumnCount();
+                JSONObject columnValuePair = new JSONObject();
+                //At every row, the column and its value are mapped...
+                for (int i = 0; i < totalColumns; i++) {
+                    //..and then put into the JSONObject
+                    columnValuePair.put(queryResults.getMetaData().getColumnName(i+1),
+                            queryResults.getObject(i+1));
+                }
+                //Which is added to this ArrayList to be returned
+                listOfColumnValuePairs.add(columnValuePair);
             }
             
             statement.close();
             conn.close();
             
-            return jsonAllRows;
+            return (listOfColumnValuePairs);
             
         } catch (SQLException e) {
             System.out.println(e);
@@ -37,7 +48,6 @@ public class OrdersDataAccess {
     private void deleteOrder(int order_id){
         
     }
-    
     
     //Returns an ArrayList of JSONObjects that belong to a specific customer
     //Index out the ArrayList and use .get() with the key as a parameter to retrieve the column value
@@ -69,7 +79,6 @@ public class OrdersDataAccess {
                 listOfJsonObjects.add(columnValuePair);
             }
             
-            
             statement.close();
             conn.close();
             
@@ -78,20 +87,5 @@ public class OrdersDataAccess {
             System.out.println(ex);
         }
         return null;
-    }
-    
-    
-    public static void main(String[] args) {
-        
-        try{
-            System.out.println(getAllRowsForCustomer(4).get(0).get("ORDER_DATE"));
-        } catch (SQLException ex) {
-            System.out.println(ex);
-        } catch (JSONException ex) {
-            System.out.println(ex);
-        }
-        
-       
-    }
-     
+    }   
 }
