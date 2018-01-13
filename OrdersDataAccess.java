@@ -45,10 +45,27 @@ public class OrdersDataAccess {
         return null;
     }
     
-    private void deleteOrder(int order_id){
+    //Will need to implement CASCADE DELETE on the foreign keys via SQL CMD Line
+    public static void deleteOrder(int orderID) throws SQLException{
         
+        try {
+            //query to be used to retrieve all rows from Orders
+            String sqlQuery = "delete from orders where order_id = " + orderID;
+            //established connectioned to oracle account through a driver
+            Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
+            //established a statement connection
+            Statement statement = conn.createStatement();
+            //executes the SQL query 
+            statement.executeQuery(sqlQuery);
+            
+            statement.close();
+            conn.close();
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
-    
+        
     //Returns an ArrayList of JSONObjects that belong to a specific customer
     //Index out the ArrayList and use .get() with the key as a parameter to retrieve the column value
     //ex: getAllRowsForCustomer(4).get(0).get("ORDER_DATE")
