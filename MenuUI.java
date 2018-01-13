@@ -4,7 +4,7 @@ import java.util.*;
 
 public class MenuUI {
     
-    public static void main(String[] args) {
+    public static void MenuUI() {
         int custId=1234;
         Scanner read = new Scanner(System.in);
         while (true) {

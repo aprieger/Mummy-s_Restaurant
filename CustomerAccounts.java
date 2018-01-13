@@ -11,7 +11,7 @@ public class CustomerAccounts {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void mainUI() {
         try {
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "hr", "hr");
             Statement stmt = conn.createStatement();
