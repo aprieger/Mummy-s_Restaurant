@@ -1,4 +1,3 @@
-package consolapp;
 
 public class CreditCard {
     private int CREDIT_ID;

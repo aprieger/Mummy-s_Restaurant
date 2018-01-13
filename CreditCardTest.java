@@ -1,8 +1,4 @@
-/*
-This class is for testing the CreditCards.java and the CreditCard.java files
-*/
 
-package consolapp;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

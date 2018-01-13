@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package MummysRestaurant;
 
 //imports will change when proper directories are established
-import MummysRestaurant.OrdersDataAccess;
+//import MummysRestaurant.OrdersDataAccess;
 import java.util.Scanner;
 /**
  *
