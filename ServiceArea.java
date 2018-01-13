@@ -49,7 +49,7 @@ public class ServiceArea {
         ServiceArea.sendUpdate("DELETE FROM Service_Areas WHERE Service_Area_Id="+deleteServiceAreaId);
     }
     
-    public static int searchPkgOrderIdByName(String searchName) {
+    public static int searchServiceAreaIdByName(String searchName) {
         ArrayList<ArrayList> resultsAL = ServiceArea.sendQuery("SELECT Pkg_Order_Id FROM Pkg_Orders WHERE Name='"+searchName+"'");
         if (resultsAL!=null)
             return Integer.parseInt(resultsAL.get(0).get(0).toString())+1;
@@ -109,5 +109,35 @@ public class ServiceArea {
             return (int)Double.parseDouble(resultsAL.get(0).get(0).toString())+1;
         else
             return 1;
+    }
+    
+    public static String printArrayList(ArrayList<ArrayList> resultsAL){
+        String output = "";
+        int aLCount=0;
+        if (resultsAL!=null) {
+            while (resultsAL.size()>aLCount) {
+                int subALCount=0;
+                while (resultsAL.get(aLCount).size()>subALCount) {
+                    output += resultsAL.get(aLCount).get(subALCount).toString() + " | ";
+                    subALCount++;
+                }
+                output += "\n";
+                aLCount++;
+            }
+        }
+        return output;
+    }
+    
+    public static String getServiceAreaData(String inputServiceAreaId) {
+        ArrayList<ArrayList> resultsAL = ServiceArea.sendQuery("SELECT Name, Area_Code, Package_Id, Tax_Rate from Service_Areas WHERE Service_Area_Id="+inputServiceAreaId);
+        if (resultsAL!=null) {
+            String output = "Name: "+resultsAL.get(0).get(0)
+                    +"\nArea_Code: "+resultsAL.get(0).get(1)
+                    +"\nPackage Id: "+resultsAL.get(0).get(2)
+                    +"\nTax Rate: "+resultsAL.get(0).get(3);
+            return output;
+        }
+        else 
+            return "";
     }
 }

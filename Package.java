@@ -9,40 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Package {
-    private int packageId;
-    private String name;
-    private String description;
-    private int mealCategory; //0=Breakfast, 1=Lunch, 2=Dinner
-    private String imageSource;
-    private double price;
-    private int isSpecial;
-    private int mealType; //0=Veg, 1=Non-Veg, 2=Spicy
-
-    public Package() {
-        this.packageId = 0;
-        this.name = null;
-        this.description = null;
-        this.mealCategory = 0;
-        this.imageSource = null;
-        this.price = 0;
-        this.isSpecial = 0;
-        this.mealType = 0;
-    }
-    
-    public Package(int packageId, String name, String description, 
-            int mealCategory, String imageSource, double price, int isSpecial, 
-            int mealType) {
-        this.packageId = packageId;
-        this.name = name;
-        this.description = description;
-        this.mealCategory = mealCategory;
-        this.imageSource = imageSource;
-        this.price = price;
-        this.isSpecial = isSpecial;
-        this.mealType = mealType;
-    }
-    
+public class Package {  
     public static void addPackage(String addName, String addDescription, 
             int addMealCategory, String addImageSource, double addPrice, 
             int addIsSpecial, int addMealType) {
@@ -52,15 +19,41 @@ public class Package {
             Package.sendUpdate(updateStr);
     }
     
-    public static void editPackage(String editPackageId, String columnNameSQL, 
-            String editNewData, boolean isString) {
-        if (isString==true)    
-            Package.sendUpdate("UPDATE Packages SET "+columnNameSQL+"='"
-                    +editNewData+"' WHERE Package_Id="+editPackageId);
-        else
-            Package.sendUpdate("UPDATE Packages SET "+columnNameSQL+"="
-                    +editNewData+" WHERE Package_Id="+editPackageId);
+    public static void editName(int editPackageId, String newName) {
+        Package.sendUpdate("UPDATE Packages SET Name='"
+                +newName+"' WHERE Package_Id="+editPackageId);
     }
+    
+    public static void editDescription(int editPackageId, String newDescription) {
+        Package.sendUpdate("UPDATE Packages SET Description='"
+                +newDescription+"' WHERE Package_Id="+editPackageId);
+    }
+    
+    public static void editMealCategory(int editPackageId, int newMealCategory) {
+        Package.sendUpdate("UPDATE Packages SET Meal_Category="
+                +newMealCategory+" WHERE Package_Id="+editPackageId);
+    }
+    
+    public static void editImageSource(int editPackageId, String newImageSource) {
+        Package.sendUpdate("UPDATE Packages SET Image_Source='"
+                +newImageSource+"' WHERE Package_Id="+editPackageId);
+    }
+    
+    public static void editPrice(int editPackageId, double newPrice) {
+        Package.sendUpdate("UPDATE Packages SET Price="
+                +newPrice+" WHERE Package_Id="+editPackageId);
+    }
+    
+    public static void editIsSpecial(int editPackageId, int newIsSpecial) {
+        Package.sendUpdate("UPDATE Packages SET Is_Special="
+                +newIsSpecial+" WHERE Package_Id="+editPackageId);
+    }
+    
+    public static void editMealType(int editPackageId, int newMealType) {
+        Package.sendUpdate("UPDATE Packages SET Meal_Type="
+                +newMealType+" WHERE Package_Id="+editPackageId);
+    }
+    
     
     public static void deletePackage(int deletePackageId) {
         Package.sendUpdate("DELETE FROM Packages WHERE Package_Id="+deletePackageId);
@@ -288,193 +281,5 @@ public class Package {
         }
         else 
             return "";
-    }
-    
-    public static void searchPackageUI(){
-        Scanner read = new Scanner(System.in);
-        System.out.println(">>>>Search Packages");
-        System.out.println("-->Enter 0 to search by packageId\n"
-                + "-->Enter 1 to search by package name\n"
-                + "-->Enter 2 to search by meal category\n"
-                + "-->Enter 3 to search by price\n"
-                + "-->Enter 4 to search for specials\n"
-                + "-->Enter 5 to search by meal types\n");
-        String userInput = read.next();
-        if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-            if (userInput.trim().equals("0")) {
-                System.out.println("---->Enter the package id to search by");
-                userInput = read.next();
-                if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                    System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from Packages WHERE Package_Id="+userInput)));
-                }
-                else
-                    System.out.println(">>>>Invalid Input");
-            }
-            else if (userInput.trim().equals("1")) {
-                System.out.println("---->Enter the package name to search by");
-                userInput = read.next();
-                System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from Packages WHERE UPPER(Name)='"+userInput.toUpperCase()+"'")));
-            }
-            else if (userInput.trim().equals("2")) {
-                System.out.println("---->Enter 0 to get all breakfast items, enter 1 to get all lunch items, enter 2 to get all dinner items");
-                userInput = read.next();
-                if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                    System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from Packages WHERE Meal_Category="+userInput)));
-                }
-                else
-                    System.out.println(">>>>Invalid Input");
-            }
-            else if (userInput.trim().equals("3")) {
-                System.out.println("---->Enter lowest price first and enter highest price second");
-                userInput = read.next();
-                String userInput2 = read.next();
-                if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                    System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from Packages WHERE Price>"+userInput+" AND Price<"+userInput2)));
-                }
-                else
-                    System.out.println(">>>>Invalid Input");
-            }
-            else if (userInput.trim().equals("4")) {
-                System.out.println("---->Enter 0 for regular packages and 1 for specials");
-                userInput = read.next();
-                if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                    System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from Packages WHERE Is_Special="+userInput)));
-                }
-                else
-                    System.out.println(">>>>Invalid Input");
-            }
-            else if (userInput.trim().equals("5")) {
-                System.out.println("---->Enter 0 for Vegetarian, enter 1 for Non-Vegetarian, enter 2 for Spicy");
-                userInput = read.next();
-                if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                    System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from Packages WHERE Meal_Type="+userInput)));
-                }
-                else
-                    System.out.println(">>>>Invalid Input");
-            }
-        }
-        else {
-            System.out.println(">>>>Invalid input");
-        }
-    }
-    public static void addPackageUI(){
-        Scanner read = new Scanner(System.in);
-        String addName="", addDescription="", addMealCategory="", addImageSource="", addPrice="", addIsSpecial="", addMealType="";
-        System.out.println(">>>>Add Packages");
-        boolean done=false;
-        while (done==false) {
-            System.out.println("-->Enter the Name of the package: ");
-            addName = read.nextLine();
-            System.out.println("-->Enter the Description of the package: ");
-            addDescription = read.nextLine();
-            boolean ok=false;
-            while (ok==false){
-                System.out.println("-->Enter the Meal Category of the package (0 for Breakfast, 1 for Lunch, 2 for Dinner): ");
-                addMealCategory = read.nextLine();
-                if (addMealCategory.matches("[-+]?\\d*\\.?\\d+")) {
-                    if (Integer.parseInt(addMealCategory)==0 || Integer.parseInt(addMealCategory)==1 || Integer.parseInt(addMealCategory)==2)
-                        ok=true;
-                    else
-                        System.out.println(">>>>Invalid Input: you must enter either 0, 1 or 2");
-                }
-                else
-                    System.out.println(">>>>Invalid Input: you must enter either 0, 1 or 2");
-            }
-            System.out.println("-->Enter the Image Source URL of the package (If no image, enter 0): ");
-            addImageSource = read.nextLine();
-            ok=false;
-            while (ok==false){
-                System.out.println("-->Enter the Price of the package: ");
-                addPrice = read.nextLine();
-                if (addPrice.matches("[-+]?\\d*\\.?\\d+"))
-                    ok=true;
-                else
-                    System.out.println(">>>>Invalid Input: you must enter a number");
-            }
-            ok=false;
-            while (ok==false){
-                System.out.println("-->Enter the 1 if the package is a special, and 0 if not: ");
-                addIsSpecial = read.nextLine();
-                if (addIsSpecial.matches("[-+]?\\d*\\.?\\d+")) {
-                    if (Integer.parseInt(addIsSpecial)==0 || Integer.parseInt(addIsSpecial)==1)
-                        ok=true;
-                    else
-                        System.out.println(">>>>Invalid Input: you must enter either 0 or 1");
-                }
-                else
-                    System.out.println(">>>>Invalid Input: you must enter either 0 or 1");
-            }
-            ok=false;
-
-            while (ok==false){
-                System.out.println("-->Enter the Meal Type of the package (0 for Vegetarian, 1 for Non-Vegetarian, 2 for Spicy): ");
-                addMealType = read.nextLine();
-                if (addMealType.matches("[-+]?\\d*\\.?\\d+")) {
-                    if (Integer.parseInt(addMealType)==0 || Integer.parseInt(addMealType)==1 || Integer.parseInt(addMealType)==2)
-                        ok=true;
-                    else
-                        System.out.println(">>>>Invalid Input: you must enter either 0, 1 or 2");
-                }
-                else
-                    System.out.println(">>>>Invalid Input: you must enter either 0, 1 or 2");
-            }
-            System.out.println("Is the below information correct:\nName: "+addName
-                    + "\nDescription: "+addDescription+"\nMeal Category (0=Breakfast,1=Lunch,2=Dinner: "+addMealCategory
-                    + "\nImage Source: "+addImageSource+"\nPrice: "+addPrice+"\nIs Special(0=Regular,1=Special): "+addIsSpecial
-                    + "\nMeal Type: "+addMealType);
-            ok=false;
-            while (ok==false){
-                System.out.println("-->Enter 0 for Not Correct and Re-enter Data, enter 1 for Correct and Add to database");
-                String userInput=read.nextLine();
-                if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                    if (Integer.parseInt(userInput)==1) {
-                        Package.addPackage(addName, addDescription, Integer.parseInt(addMealCategory), addImageSource, Double.parseDouble(addPrice), Integer.parseInt(addIsSpecial), Integer.parseInt(addMealType));
-                        System.out.println(">>>>Added");
-                        done=true;
-                        ok=true;
-                    }
-                    else if (Integer.parseInt(userInput)==0) {
-                        ok=true;
-                    }
-                    else
-                        System.out.println(">>>>Invalid Input: you must enter either 0 or 1");
-                }
-                else
-                    System.out.println(">>>>Invalid Input: you must enter either 0 or 1");
-            }
-        }
-    }
-    
-    public static void editDeletePackageUI () {
-        boolean done=false;
-        Scanner read = new Scanner(System.in);
-        while (done==false) {
-            System.out.println(">>>>Edit/Delete Packages\n-->Enter 0 to edit and 1 to delete\n");
-            String userInput = read.nextLine();
-
-            if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                if (userInput.trim().equals("0")) {
-                    System.out.println("---->Enter the package id to edit");
-                    userInput = read.nextLine();
-                    if (userInput.trim().matches("[-+]?\\d*\\.?\\d+")) {
-                        if (Package.sendQuery("SELECT COUNT(*) FROM Packages WHERE Package_Id="+userInput.trim()).equals("1")) {
-                            System.out.println("-->Enter 0 to search by packageId\n"
-                            + "-->Enter 1 to search by package name\n"
-                            + "-->Enter 2 to search by meal category\n"
-                            + "-->Enter 3 to search by price\n"
-                            + "-->Enter 4 to search for specials\n"
-                            + "-->Enter 5 to search by meal types\n");
-                        }
-                        else
-                            System.out.println("Error: Package Id not found");
-                    }
-                    else 
-                        System.out.println("Error: Invalid Input");
-                }
-                else if (userInput.trim().equals("0")) {
-                    System.out.println(">>>>Delete");
-                }
-            }
-        }
     }
 }

@@ -14,14 +14,15 @@ public class AdminUI {
             userInput = read.next();
             if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
                 if (userInput.trim().equals("0")) {
-                    AdminPackageUI toPackageUI = new AdminPackageUI();
-                    toPackageUI.goToAdminPackageUI();
+                    AdminPackageUI toAdminPackageUI = new AdminPackageUI();
+                    toAdminPackageUI.goToAdminPackageUI();
                 }
                 else if (userInput.trim().equals("1")) {
                     
                 }
                 else if (userInput.trim().equals("2")) {
-                    
+                    AdminServiceAreaUI toAdminServiceAreaUI = new AdminServiceAreaUI();
+                    toAdminServiceAreaUI.goToAdminServiceAreaUI();
                 }
 
             }
