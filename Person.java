@@ -5,17 +5,11 @@
  */
 package teamproject;
 
-/**
- *
- * @author syntel
- */
 public class Person {
     
     private String firstName;
     private String lastName;
-    private int phoneNumber;
-    private String userName;
-    private String password;
+    private String phoneNumber;
     
 
     public String getFirstName() {
@@ -34,28 +28,11 @@ public class Person {
         this.lastName = last_name;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phone_number) {
+    public void setPhoneNumber(String phone_number) {
         this.phoneNumber = phone_number;
     }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String user_name) {
-        this.userName = user_name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
 }

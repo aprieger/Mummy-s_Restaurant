@@ -5,15 +5,19 @@
  */
 package teamproject;
 
-
-
-
-
 public class Worker extends Person{
     
-    private int userId;
+    private int employeeId;
     private int isAdmin;
     private int isActive;
+    private Login login;
+    
+public Worker(){
+    login = new Login();
+}
+    public Login getLogin() {
+        return login;
+    }
 
     public int getIsActive() {
         return isActive;
@@ -23,12 +27,12 @@ public class Worker extends Person{
         this.isActive = isActive;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getEmployeeId() {
+        return employeeId;
     }
 
-    public void setUserId(int user_id) {
-        this.userId = user_id;
+    public void setEmployeeId(int user_id) {
+        this.employeeId = user_id;
     }
 
     public int getIsAdmin() {
