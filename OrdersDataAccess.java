@@ -222,4 +222,31 @@ public class OrdersDataAccess {
         }
         return null;
     }
+    
+    //returns an id during the creation of an orders row
+    public Integer idOrdersGenerator() throws SQLException, JSONException{
+        //stores existing IDs from orders
+        int largestId = 0;        
+        //SQL query to return all the ids from orders
+        String sqlQuery = "select max(order_id) from orders";
+        
+        try{
+            //established connectioned to oracle account through a driver
+            Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
+            //established a statement connection
+            Statement statement = conn.createStatement();
+            //executes the SQL query and returns a ResultSet object
+            ResultSet queryResults = statement.executeQuery(sqlQuery);
+            
+            while(queryResults.next()){
+                largestId = queryResults.getInt(1);
+            }
+            
+            return largestId + 1;
+            
+        } catch (SQLException se) {
+            System.out.println(se);
+        }
+        return 0;
+    }
 }
