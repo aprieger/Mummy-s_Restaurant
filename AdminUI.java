@@ -18,13 +18,13 @@ public class AdminUI {
                     toAdminPackageUI.goToAdminPackageUI();
                 }
                 else if (userInput.trim().equals("1")) {
-                    
+                    AdminPkgOrderUI toAdminPkgOrderUI = new AdminPkgOrderUI();
+                    toAdminPkgOrderUI.goToAdminPkgOrderUI();
                 }
                 else if (userInput.trim().equals("2")) {
                     AdminServiceAreaUI toAdminServiceAreaUI = new AdminServiceAreaUI();
                     toAdminServiceAreaUI.goToAdminServiceAreaUI();
                 }
-
             }
             else {
                 System.out.println(">>>>Invalid input");

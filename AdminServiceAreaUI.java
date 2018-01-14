@@ -75,7 +75,7 @@ public class AdminServiceAreaUI {
                 else
                     System.out.println(">>>>Invalid Input: you must enter a number");
             }
-            //Send update SQL transaction to add the data to the Service_Areas Table
+            //Send update SQL transaction to add the data to the ServiceAreas Table
             ServiceArea.addServiceArea(addName, Integer.parseInt(addAreaCode), Integer.parseInt(addPackageId), Double.parseDouble(addTaxRate));
         }
     }
@@ -90,10 +90,10 @@ public class AdminServiceAreaUI {
             //Check if input is a number
             if (userInput.trim().matches("[-+]?\\d*\\.?\\d+")) {
                 //Send the query and get the results of the count of service areas with the specified service area id
-                ArrayList<ArrayList> resultsAL = ServiceArea.sendQuery("SELECT COUNT(*) FROM Service_Areas WHERE Service_Area_Id="+userInput.trim());
+                ArrayList<ArrayList> resultsAL = ServiceArea.sendQuery("SELECT COUNT(*) FROM ServiceAreas WHERE Service_Area_Id="+userInput.trim());
                 if (resultsAL.get(0).get(0).equals("1")) {
                     editServiceAreaId=Integer.parseInt(userInput);
-                    System.out.println("Service Area Info:\n"+ServiceArea.getServiceAreaData(userInput));
+                    System.out.println("Service Area Info:\n"+ServiceArea.printServiceAreaData(userInput));
                     System.out.println("-->Enter 1 to edit service area name\n"
                             + "-->Enter 2 to edit service area code\n"
                             + "-->Enter 3 to edit service area package id\n"
@@ -102,27 +102,27 @@ public class AdminServiceAreaUI {
                     //Check if input is a number
                     if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
                         //Edit name
-                        if (userInput.trim().equals("0")) {
+                        if (userInput.trim().equals("1")) {
                             System.out.println("-->Enter the new name: ");
                             userInput = read.nextLine();
                             ServiceArea.editName(editServiceAreaId, userInput);
                         }
                         //Edit Area Code
-                        else if (userInput.trim().equals("1")) {
+                        else if (userInput.trim().equals("2")) {
                             boolean ok=false;
                             while (ok==false){
                                 System.out.println("-->Enter the new area code: ");
                                 userInput = read.nextLine();
                                 if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                                    ok=true;
                                     ServiceArea.editAreaCode(editServiceAreaId, Integer.parseInt(userInput));
+                                    ok=true;
                                 }
                                 else
                                     System.out.println(">>>>Invalid Input: you must enter a number");
                             }
                         }
                         //Edit Package Id
-                        else if (userInput.trim().equals("2")) {
+                        else if (userInput.trim().equals("3")) {
                             boolean ok=false;
                             while (ok==false){
                                 System.out.println("-->Enter the new package id: ");
@@ -132,8 +132,8 @@ public class AdminServiceAreaUI {
                                     ArrayList<ArrayList> packageIdResultsAL = ServiceArea.sendQuery("SELECT COUNT(*) FROM Packages WHERE Package_Id="+userInput);
                                     //Check if Package Id is in the Packages table
                                     if (packageIdResultsAL.get(0).get(0).toString().equals("1")) {
-                                       ok=true;
                                         ServiceArea.editPackageId(editServiceAreaId, Integer.parseInt(userInput));
+                                        ok=true;
                                     }
                                     else
                                         System.out.println(">>>>Package Id not in the Packages table");
@@ -143,20 +143,20 @@ public class AdminServiceAreaUI {
                             }
                         }
                         //Edit Area Code
-                        else if (userInput.trim().equals("3")) {
+                        else if (userInput.trim().equals("4")) {
                             boolean ok=false;
                             while (ok==false){
                                 System.out.println("-->Enter the new tax rate: ");
                                 userInput = read.nextLine();
                                 if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                                    ok=true;
                                     ServiceArea.editTaxRate(editServiceAreaId, Double.parseDouble(userInput));
+                                    ok=true;
                                 }
                                 else
                                     System.out.println(">>>>Invalid Input: you must enter a number");
                             }
                         }
-                        System.out.println("Updated Service Area: "+ServiceArea.getServiceAreaData(userInput));
+                        System.out.println("Updated Service Area: "+ServiceArea.printServiceAreaData(userInput));
                     }
                     else 
                         System.out.println(">>>>Invalid input");
@@ -177,10 +177,10 @@ public class AdminServiceAreaUI {
             System.out.println("---->Enter the service area id to delete");
             String userInput = read.nextLine();
             if (userInput.trim().matches("[-+]?\\d*\\.?\\d+")) {
-                ArrayList<ArrayList> resultsAL = ServiceArea.sendQuery("SELECT COUNT(*) FROM Service_Areas WHERE Service_Area_Id="+userInput.trim());
+                ArrayList<ArrayList> resultsAL = ServiceArea.sendQuery("SELECT COUNT(*) FROM ServiceAreas WHERE Service_Area_Id="+userInput.trim());
                 if (resultsAL.get(0).get(0).equals("1")) {
                     deleteServiceAreaId=Integer.parseInt(userInput);
-                    System.out.println("Service Area Info:\n"+ServiceArea.getServiceAreaData(userInput)+"\nConfirm Delete: 1 for yes, 0 for no");
+                    System.out.println("Service Area Info:\n"+ServiceArea.printServiceAreaData(userInput)+"\nConfirm Delete: 1 for yes, 0 for no");
                     userInput = read.nextLine();
                     if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
                         if (userInput.trim().equals("1")) {
@@ -205,63 +205,60 @@ public class AdminServiceAreaUI {
     public static void adminSearchServiceAreaUI(){
         Scanner read = new Scanner(System.in);
         System.out.println(">>>>Search Service Areas");
-        System.out.println("-->Enter 0 to search by service area id\n"
-                + "-->Enter 1 to search by service area name\n"
-                + "-->Enter 2 to search by service area code\n"
-                + "-->Enter 3 to search by service area package id\n"
-                + "-->Enter 4 to search for service area tax rate\n");
+        System.out.println("-->Enter 1 to search by service area id\n"
+                + "-->Enter 2 to search by service area name\n"
+                + "-->Enter 3 to search by service area code\n"
+                + "-->Enter 4 to search by service area package id\n"
+                + "-->Enter 5 to search for service area tax rate\n");
         String userInput = read.nextLine();
         if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
             //Search by service area id
-            if (userInput.trim().equals("0")) {
+            if (userInput.trim().equals("1")) {
                 System.out.println("---->Enter the service area id to search by");
                 userInput = read.nextLine();
-                if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                    System.out.println(ServiceArea.printArrayList(ServiceArea.sendQuery("SELECT * from Service_Areas WHERE Service_Area_Id="+userInput.trim())));
-                }
+                if (userInput.matches("[-+]?\\d*\\.?\\d+"))
+                    System.out.println(ServiceArea.printArrayList(ServiceArea.sendQuery("SELECT * from ServiceAreas WHERE Service_Area_Id="+userInput.trim())));
                 else
                     System.out.println(">>>>Invalid Input");
             }
             //Search by service area name
-            else if (userInput.trim().equals("1")) {
+            else if (userInput.trim().equals("2")) {
                 System.out.println("---->Enter the service area name to search by");
                 userInput = read.nextLine();
-                System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from Service_Areas WHERE UPPER(Name)='"+userInput.toUpperCase()+"'")));
+                System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from ServiceAreas WHERE UPPER(Name)='"+userInput.toUpperCase()+"'")));
             }
             //Search by service area code
-            else if (userInput.trim().equals("2")) {
+            else if (userInput.trim().equals("3")) {
                 System.out.println("---->Enter service area code to search by");
                 userInput = read.nextLine();
-                if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                    System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from Service_Areas WHERE Area_Code="+userInput)));
-                }
+                if (userInput.matches("[-+]?\\d*\\.?\\d+"))
+                    System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from ServiceAreas WHERE Area_Code="+userInput)));
                 else
                     System.out.println(">>>>Invalid Input");
             }
             //Search by service package id
-            else if (userInput.trim().equals("3")) {
+            else if (userInput.trim().equals("4")) {
                 System.out.println("---->Enter service area package id to search by");
                 userInput = read.nextLine();
                 String userInput2 = read.nextLine();
-                if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                    System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from Service_Areas WHERE Package_Id="+userInput2)));
-                }
+                if (userInput.matches("[-+]?\\d*\\.?\\d+"))
+                    System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from ServiceAreas WHERE Package_Id="+userInput2)));
                 else
                     System.out.println(">>>>Invalid Input");
             }
             //Search by service tax rate
-            else if (userInput.trim().equals("4")) {
+            else if (userInput.trim().equals("5")) {
                 System.out.println("---->Enter service area tax rate to search by");
                 userInput = read.nextLine();
-                if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                    System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from Service_Areas WHERE Tax_Rate="+userInput)));
-                }
+                if (userInput.matches("[-+]?\\d*\\.?\\d+"))
+                    System.out.println(Package.printArrayList(Package.sendQuery("SELECT * from ServiceAreas WHERE Tax_Rate="+userInput)));
                 else
                     System.out.println(">>>>Invalid Input");
             }
+            else
+                System.out.println(">>>>Invalid Input");
         }
-        else {
+        else
             System.out.println(">>>>Invalid input");
-        }
     }
 }
