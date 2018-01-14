@@ -223,7 +223,25 @@ public class OrdersDataAccess {
         return null;
     }
     
-    //need to finish this method, actual parameter type missing
+    //TODO: need to confirm what values are going to be passed into this method
+    public static void updateOrdersRow (String columnName, Object columnValue, int orderId) throws SQLException {
+        String sqlQuery = "update orders " + 
+                "set " + columnName + " = " + columnValue + " " +
+                "where order_id = " + orderId;        
+        try {
+            //established connectioned to oracle account through a driver
+            Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
+            //established a statement connection
+            Statement statement = conn.createStatement();
+            //executes the SQL query
+            statement.executeQuery(sqlQuery);
+            System.out.println("Order updated!");
+        } catch (SQLException se) {
+            System.out.println(se);
+        }
+    } 
+    
+    //TODO: need to finish this method, actual parameter type missing
     public static void insertNewOrdersRow(Object pkgOrderObject) throws SQLException{
         
         String sqlQuery = "select * from orders";
