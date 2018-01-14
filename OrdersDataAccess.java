@@ -223,8 +223,43 @@ public class OrdersDataAccess {
         return null;
     }
     
+    //need to finish this method, actual parameter type missing
+    public static void insertNewOrdersRow(Object pkgOrderObject) throws SQLException{
+        
+        String sqlQuery = "select * from orders";
+         
+        try {
+            int idForNewRow = idOrdersGenerator();
+            //established connectioned to oracle account through a driver
+            Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
+            //established a statement connection
+            Statement statement = conn.createStatement();
+            //executes the SQL query and returns a ResultSet object
+            ResultSet queryResults = statement.executeQuery(sqlQuery);
+            
+            //TODO: assign actual values from CUSTOMER_ID down
+            queryResults.moveToInsertRow();
+            queryResults.updateInt("ORDER_ID", idForNewRow);
+            queryResults.updateInt("CUSTOMER_ID", idForNewRow);
+            queryResults.updateInt("CREDIT_ID", idForNewRow);
+            queryResults.updateInt("PAYMENTMENT_TYPE", idForNewRow);
+            queryResults.updateInt("TOTAL_PRICE", idForNewRow);
+            queryResults.updateString("STREET", idForNewRow);
+            queryResults.updateString("CITY", idForNewRow);
+            queryResults.updateInt("AREA_CODE", idForNewRow);
+            queryResults.updateString("PHONE_NUMBER", idForNewRow);
+            queryResults.updateTimestamp("DELIVERY_DATE", idForNewRow);
+            queryResults.updateTimestamp("ORDER_DATE", idForNewRow);
+            queryResults.insertRow();
+            
+        } catch (SQLException se){
+            System.out.println(se);
+        }
+        
+    }
+    
     //returns an id during the creation of an orders row
-    public Integer idOrdersGenerator() throws SQLException, JSONException{
+    public static Integer idOrdersGenerator() throws SQLException{
         //stores existing IDs from orders
         int largestId = 0;        
         //SQL query to return all the ids from orders
