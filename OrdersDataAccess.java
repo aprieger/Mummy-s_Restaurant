@@ -111,7 +111,46 @@ public class OrdersDataAccess {
             String sqlQuery = "select o.* " + 
                     "from orders o, customer_accounts ca " + 
                     "where (o.customer_id = ca.customer_id) " + 
-                    "and (ca.first_name = " + firstName +")";
+                    "and (ca.firs_name = " + firstName +")";
+            //established connectioned to oracle account through a driver
+            Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
+            //established a statement connection
+            Statement statement = conn.createStatement();
+            //executes the SQL query and returns a ResultSet object
+            ResultSet queryResults = statement.executeQuery(sqlQuery);
+            
+            ArrayList<JSONObject> listOfColumnValuePairs = new ArrayList();
+            while(queryResults.next()) {
+                int totalColumns = queryResults.getMetaData().getColumnCount();
+                JSONObject columnValuePair = new JSONObject();
+                //At every row, the column and its value are mapped...
+                for (int i = 0; i < totalColumns; i++) {
+                    //..and then put into the JSONObject
+                    columnValuePair.put(queryResults.getMetaData().getColumnName(i+1),
+                            queryResults.getObject(i+1));
+                }
+                //Which is added to this ArrayList to be returned
+                listOfColumnValuePairs.add(columnValuePair);
+            }
+            
+            statement.close();
+            conn.close();
+            
+            return (listOfColumnValuePairs);
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    public static ArrayList<JSONObject> getCustomerOrdersLastName(String lastName) throws SQLException, JSONException{
+        try {
+            //query to be used to retrieve all rows from Orders
+            String sqlQuery = "select o.* " + 
+                    "from orders o, customer_accounts ca " + 
+                    "where (o.customer_id = ca.customer_id) " + 
+                    "and (ca.last_name = " + lastName +")";
             //established connectioned to oracle account through a driver
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
             //established a statement connection
