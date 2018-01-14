@@ -10,7 +10,6 @@ public class OrdersDataAccess {
     //Date must be passed in this format "DD-MM-YY", double quotes included
     public static ArrayList<JSONObject> getAllOrdersForToday(String deliveryDate) throws SQLException, JSONException{
         try {
-
             //query to be used to retrieve all rows from Orders
             String sqlQuery = "select * from orders where delivery_date like '" + deliveryDate + "%'";
             //established connectioned to oracle account through a driver
@@ -69,7 +68,7 @@ public class OrdersDataAccess {
     //Returns an ArrayList of JSONObjects that belong to a specific customer
     //Index out the ArrayList and use .get() with the key as a parameter to retrieve the column value
     //ex: getAllRowsForCustomer(4).get(0).get("ORDER_DATE")
-    public static ArrayList<JSONObject> getAllRowsForCustomer(int customerID) throws SQLException, JSONException{
+    public static ArrayList<JSONObject> getCustomerOrdersCustomerID(int customerID) throws SQLException, JSONException{
         try {
 
             //query to be used to retrieve all rows from Orders
