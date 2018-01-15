@@ -21,6 +21,7 @@ public class ConsolApp {
                     MenuUI.MenuUI();
                     continue;
                 case 2:
+                    LogInUI.employeeLoginUI();
                     continue;
                 case 3:
                     CustomerAccounts.mainUI();
