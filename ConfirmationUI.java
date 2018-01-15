@@ -28,7 +28,7 @@ public class ConfirmationUI {
         
         switch(userInput){
             case 1:
-                //Grabs the input method for the Orders data access layer
+                //Grabs the input method for the packageOrder or Package data access layer
             case 2: 
                 //erase everything, go back to main menu
         }

@@ -15,7 +15,7 @@ import MummysRestaurant.ConfirmationUI;
  */
 public class PackageOrderUI {
     
-    private static void mainViewofPackageOrder(){
+    private static void mainViewofPackageOrder(int customerId){
         //todo: find method to query Packages for customer related packages
         
         //display the list of packages
@@ -37,6 +37,7 @@ public class PackageOrderUI {
                 //todo: grab the PaymentUI method
             case 3: 
                 Package menu = new Package();
+                //Does this need a parameter to be passed in?
                 menu.printMenu();
         }
     }
