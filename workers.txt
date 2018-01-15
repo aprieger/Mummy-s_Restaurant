@@ -1,0 +1,9 @@
+Create table Workers (employee_id integer not null,
+                      user_id integer not null primary key, 
+                      first_name varchar(50),
+		      last_name varchar(75),
+		      password varchar(20),
+		      phone_number integer,
+		      is_admin integer,
+		      is_active integer
+                      primary key (user_id));

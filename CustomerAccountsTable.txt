@@ -1,0 +1,12 @@
+CREATE TABLE CustomerAccounts(
+    Customer_id int NOT NULL PRIMARY KEY,
+    First_Name varchar(25),
+    Last_Name varchar(50),
+    Street varchar(100),
+    City varchar(75),
+    State varchar(2),
+    Area_Code int,
+    Phone_Number varchar(12),
+    Username varchar(25),
+    Password varchar(25)
+);
