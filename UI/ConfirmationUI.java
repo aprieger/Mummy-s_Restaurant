@@ -90,6 +90,8 @@ public class ConfirmationUI {
                 //Grabs the input method for the packageOrder or Package data access layer
             case 2: 
                 //erase everything, go back to main menu
+                call method from PkgOrder.java, pass in customerId, and delete packages that are open
+                        
         }
         
     }

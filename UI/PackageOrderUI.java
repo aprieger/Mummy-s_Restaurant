@@ -54,7 +54,7 @@ public class PackageOrderUI {
             //credit
             case 1:
                 CreditCardUI creditCardOption = new CreditCardUI();
-                CustomerCreditView(customerId);
+                creditCardOption.CustomerCreditView(customerId);
             //food menu
             case 2: 
                 Package menu = new MenuUI();
