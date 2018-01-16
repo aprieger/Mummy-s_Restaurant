@@ -1,7 +1,0 @@
-CREATE TABLE ServiceAreas(
-	Service_Area_Id INT NOT NULL PRIMARY KEY,
-	Package_Id INT,
-	FOREIGN KEY (Package_Id) REFERENCES Packages(Package_Id),
-	Name VARCHAR(50),
-	Area_Code NUMBER(20),
-	Tax_Rate FLOAT(126));

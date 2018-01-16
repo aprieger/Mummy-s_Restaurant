@@ -1,9 +1,0 @@
-CREATE TABLE Packages(
-	Package_Id INT NOT NULL PRIMARY KEY,
-	Name VARCHAR2(50),
-	Description VARCHAR2(1000),
-	Meal_Category NUMBER(2),
-	Image_Source VARCHAR2(100),
-	Price FLOAT(126),
-	Is_Special NUMBER(2),
-	Meal_Type NUMBER(2));
