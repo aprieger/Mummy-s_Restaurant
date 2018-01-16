@@ -1,8 +1,8 @@
-INSERT INTO CUSTOMERACCOUNTS VALUES (1, 'Ben', 'Ben', 'happyLane', 'Phoenix', 'AZ',805,'1111111111','username','password'0);
-INSERT INTO CUSTOMERACCOUNTS VALUES (2, 'Mike', 'Mike', 'happyLane', 'Phoenix', 'AZ',805,'1111111111','username','password'0);
-INSERT INTO CUSTOMERACCOUNTS VALUES (3, 'Ron', 'Ron', 'happyLane', 'Phoenix', 'AZ',805,'1111111111','username','password'0);
-INSERT INTO CUSTOMERACCOUNTS VALUES (4, 'Aaron', 'Aaron', 'happyLane', 'Phoenix', 'AZ',805,'1111111111','username','password'0);
-INSERT INTO CUSTOMERACCOUNTS VALUES (5, 'Carl', 'Carl', 'happyLane', 'Phoenix', 'AZ',805,'1111111111','username','password'0);
+INSERT INTO CUSTOMERACCOUNTS VALUES (1, 'Ben', 'Ben', 'happyLane', 'Phoenix', 'AZ',805,'1111111111','username','password',0);
+INSERT INTO CUSTOMERACCOUNTS VALUES (2, 'Mike', 'Mike', 'happyLane', 'Phoenix', 'AZ',805,'1111111111','username','password',0);
+INSERT INTO CUSTOMERACCOUNTS VALUES (3, 'Ron', 'Ron', 'happyLane', 'Phoenix', 'AZ',805,'1111111111','username','password',0);
+INSERT INTO CUSTOMERACCOUNTS VALUES (4, 'Aaron', 'Aaron', 'happyLane', 'Phoenix', 'AZ',805,'1111111111','username','password',0);
+INSERT INTO CUSTOMERACCOUNTS VALUES (5, 'Carl', 'Carl', 'happyLane', 'Phoenix', 'AZ',805,'1111111111','username','password',0);
 
 INSERT INTO CREDIT_CARDS VALUES(1,1,12345,'VISA',999,'12/DEC/2020','ben', 'happylane','phoenix',555);
 INSERT INTO CREDIT_CARDS VALUES(2,2,12345,'VISA',999,'12/DEC/2020','mike', 'happylane','phoenix',555);
@@ -10,11 +10,11 @@ INSERT INTO CREDIT_CARDS VALUES(3,3,12345,'VISA',999,'12/DEC/2020','ron', 'happy
 INSERT INTO CREDIT_CARDS VALUES(4,4,12345,'VISA',999,'12/DEC/2020','aaron', 'happylane','phoenix',555);
 INSERT INTO CREDIT_CARDS VALUES(5,5,12345,'VISA',999,'12/DEC/2020','carl', 'happylane','phoenix',555);
 
-INSERT INTO oEDERS VALUES (1,1,1,1,20,'happylane','phoenix', 555, '1111111111', '12/12/2018', '1/1/2019', 1);
-INSERT INTO oEDERS VALUES (2,2,2,2,20,'happylane','phoenix', 555, '1111111111', '12/12/2018', '1/1/2019', 1);
-INSERT INTO oEDERS VALUES (3,3,3,3,20,'happylane','phoenix', 555, '1111111111', '12/12/2018', '1/1/2019', 1);
-INSERT INTO oEDERS VALUES (4,4,4,4,20,'happylane','phoenix', 555, '1111111111', '12/12/2018', '1/1/2019', 1);
-INSERT INTO oEDERS VALUES (5,5,5,5,20,'happylane','phoenix', 555, '1111111111', '12/12/2018', '1/1/2019', 1);
+INSERT INTO ORDERS VALUES (1,1,1,1,20,'happylane','phoenix', 555, '1111111111', '12-JAN-18 02:15:18', '01-JAN-19 02:15:18', 1);
+INSERT INTO ORDERS VALUES (2,2,2,2,20,'happylane','phoenix', 555, '1111111111', '12-JAN-18 02:15:18', '01-JAN-19 02:15:18', 1);
+INSERT INTO ORDERS VALUES (3,3,3,3,20,'happylane','phoenix', 555, '1111111111', '12-JAN-18 02:15:18', '01-JAN-19 02:15:18', 1);
+INSERT INTO ORDERS VALUES (4,4,4,4,20,'happylane','phoenix', 555, '1111111111', '12-JAN-18 02:15:18', '01-JAN-19 02:15:18', 1);
+INSERT INTO ORDERS VALUES (5,5,5,5,20,'happylane','phoenix', 555, '1111111111', '12-JAN-18 02:15:18', '01-JAN-19 02:15:18', 1);
 
 INSERT INTO PACKAGES VALUES (1, 'chicken','chicken',1,'src...',20.0,1,1);
 INSERT INTO PACKAGES VALUES (2, 'chicken','chicken',1,'src...',20.0,1,1);

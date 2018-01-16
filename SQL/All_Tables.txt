@@ -14,7 +14,7 @@ enabled int
 ================================================================================
 CREATE TABLE CREDIT_CARDS (
 CREDIT_ID INT NOT NULL PRIMARY KEY,
-CUSTOMER_ID INT REFERENCES CUSTOMER_ACCOUNT (CUSTOMER_ID),
+CUSTOMER_ID INT REFERENCES CUSTOMERACCOUNTS (CUSTOMER_ID),
 CARD_NUMBER INT,
 BRAND VARCHAR2(255),
 SECURITY_NUMBER INT,
@@ -27,7 +27,7 @@ AREA_CODE INT
 ================================================================================
 CREATE TABLE ORDERS (
 ORDER_ID INT NOT NULL PRIMARY KEY,
-CUSTOMER_ID INT REFERENCES CUSTOMER_ACCOUNT (CUSTOMER_ID),
+CUSTOMER_ID INT REFERENCES CUSTOMERACCOUNTS (CUSTOMER_ID),
 CREDIT_ID INT REFERENCES CREDIT_CARDS (CREDIT_ID),
 PAYMENT_TYPE INT,
 TOTAL_PRICE NUMERIC(20,2),
@@ -37,7 +37,7 @@ AREA_CODE INT,
 PHONE_NUMBER VARCHAR2(30),
 DELIVERY_DATE TIMESTAMP,
 ORDER_DATE TIMESTAMP,
-ORDER_STATUS INT(2)
+ORDER_STATUS INT
 );
 ================================================================================
 CREATE TABLE Packages(
@@ -48,7 +48,8 @@ Meal_Category NUMBER(2),
 Image_Source VARCHAR2(100),
 Price FLOAT(126),
 Is_Special NUMBER(2),
-Meal_Type NUMBER(2));
+Meal_Type NUMBER(2)
+);
 ================================================================================
 CREATE TABLE SERVICEAREAS (
 AREA_ID INT NOT NULL PRIMARY KEY,
@@ -66,7 +67,7 @@ user_id varchar2(20),
 password varchar2(20),
 phone_number varchar2(20),
 is_admin integer,
-is_active integer,
+is_active integer
 );
 ================================================================================
 CREATE TABLE PkgOrders(
@@ -76,5 +77,6 @@ Package_Id INT REFERENCES Packages(Package_Id),
 Customer_Id INT REFERENCES CustomerAccounts(Customer_Id),
 Price_Per_Pkg FLOAT(126),
 Quantity NUMBER(5), 
-Is_Open NUMBER(2));
+Is_Open NUMBER(2)
+);
 ================================================================================
