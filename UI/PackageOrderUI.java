@@ -21,7 +21,7 @@ import org.json.JSONObject;
  */
 public class PackageOrderUI {
     
-    private static void mainViewOfPackageOrder(int customerId){
+    public static void mainViewOfPackageOrder(int customerId){
         PkgOrder openPackageOrders = new PkgOrder();
         
         ArrayList<JSONObject> listOfJsonObject = new ArrayList();
