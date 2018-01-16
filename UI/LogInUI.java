@@ -53,9 +53,8 @@ public class LogInUI {
             }
         } while (!((worker instanceof Admin) || (worker instanceof Worker)));
         
-        if (worker.getIsAdmin() == 1){  // NEED TO CHECK IF ADMIN
-            // GO TO ADMIN UI
-            System.out.println("ADMIN");  //testing
+        if (worker.getIsAdmin() == 1){ 
+            AdminMainUI.AdminUI();
         }
         else {
             WorkerUI.workersUI();
