@@ -23,7 +23,7 @@ public class PkgOrder {
             }
             else
                 System.out.println(">>>>Error: customer does not exist in table");
-        } catch (Exception e){System.out.println(e);}
+        } catch (JSONException e){System.out.println(e);}
     }
     
     public static void editOrderId(int pkgOrderId, int newOrderId) {
@@ -50,7 +50,7 @@ public class PkgOrder {
             }
             else
                 System.out.println(">>>>Error: Package doesn't exist");   
-        } catch (Exception e) {System.out.println(e);}
+        } catch (JSONException e) {System.out.println(e);}
     }
     
     public static void editCustomerId(int pkgOrderId, int newCustomerId) {
@@ -97,7 +97,7 @@ public class PkgOrder {
                 return Integer.parseInt(resultsAL.get(0).get("PKG_ORDER_ID").toString())+1;
             else
                 return 1;
-        } catch (Exception e) {System.out.println(e); return -1;}
+        } catch (JSONException e) {System.out.println(e); return -1;}
     }
     
     public static ArrayList<JSONObject> getSinglePkgOrder(int pkgOrderId) {
@@ -112,10 +112,15 @@ public class PkgOrder {
     }
     
     public static ArrayList<JSONObject> getOpenPkgOrdersByCustomer(int Customer_Id) {
-        //Convert to ArrayList of JSON pbjects
-        return Utilities.sendQuery("SELECT O.Pkg_Order_Id, P.Name, P.Meal_Category, O.Price_Per_Pkg, O.Quantity, S.Name "
+        return Utilities.sendQuery("SELECT O.Pkg_Order_Id, P.Name, P.Meal_Category, O.Price_Per_Pkg, O.Quantity, S.Name AS SERVICE_AREA"
                 + "FROM PkgOrders O, Packages P, ServiceAreas S "
-                + "WHERE P.Package_Id=O.Package_Id AND O.Customer_Id="+Customer_Id+" AND S.PackageId=P.PackageId AND O.Is_Open=1");
+                + "WHERE P.Package_Id=O.Package_Id AND O.Customer_Id="+Customer_Id+" AND S.Package_Id=P.Package_Id AND O.Is_Open=1");
+    }
+    
+    public static ArrayList<JSONObject> getAllPkgOrdersByOrder(int OrderId) {
+        return Utilities.sendQuery("SELECT O.Pkg_Order_Id, P.Name, P.Meal_Category, O.Price_Per_Pkg, O.Quantity, S.Name AS SERVICE_AREA"
+                + "FROM PkgOrders O, Packages P, ServiceAreas S"
+                + "WHERE P.Package_Id=O.Package_Id AND O.Order_Id="+OrderId+" AND S.Package_Id=P.Package_Id");
     }
     
     public static String getStringFromJSON(ArrayList<JSONObject> resultsAL) {
@@ -134,7 +139,7 @@ public class PkgOrder {
                     }
                 }
                 return output;
-            } catch (Exception e) {return output+e;}
+            } catch (JSONException e) {return output+e;}
         }
         else
             return "";
@@ -158,6 +163,6 @@ public class PkgOrder {
                     finalPrice+=Double.parseDouble(resultsAL.get(i).get("PRODUCT").toString());
             }
             return finalPrice;
-        } catch (Exception e) {return 0.0;}
+        } catch (JSONException e) {return 0.0;}
     }
 }

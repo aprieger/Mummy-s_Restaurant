@@ -1,11 +1,6 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.Statement;
 import java.util.ArrayList;
 import org.json.JSONObject;
+import org.json.JSONException;
 
 public class ServiceArea {
     public static void addServiceArea(String name, int areaCode, int packageId, double taxRate) {
@@ -45,7 +40,7 @@ public class ServiceArea {
                 return Integer.parseInt(resultsAL.get(0).get("AREA_ID").toString())+1;
             else
                 return 0;
-        } catch (Exception e) {return -1;}
+        } catch (JSONException e) {return -1;}
     } 
     
     public static int getNextServiceAreaId() {
@@ -55,7 +50,7 @@ public class ServiceArea {
                 return Integer.parseInt(resultsAL.get(0).get("AREA_ID").toString())+1;
             else
                 return 1;
-        } catch (Exception e) {return -1;}
+        } catch (JSONException e) {return -1;}
     }
     
     public static String getStringFromJSON(ArrayList<JSONObject> resultsAL) {
@@ -74,7 +69,7 @@ public class ServiceArea {
                     }
                 }
                 return output;
-            } catch (Exception e) {return output+e;}
+            } catch (JSONException e) {return output+e;}
         }
         else
             return "";
