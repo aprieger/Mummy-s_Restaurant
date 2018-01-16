@@ -38,7 +38,7 @@ public class AdminMainUI {
                     AdminWorkerRecordsUI.adminUI();
                     break;       
                 case 2: 
-                    //
+                    AdminPkgsAndAreasUI.goToAdminPackagesUI();
                     break;
                 case 3:
                     // UI we want worker to access
