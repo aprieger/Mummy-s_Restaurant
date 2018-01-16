@@ -21,8 +21,8 @@ public class OrdersModelClass {
     private String city;
     private int areaCode;
     private String phoneNumber;
-    private Date deliveryDate;
-    private Date orderDate;
+    private String deliveryDate;
+    private String orderDate;
     private int orderStatus;
 
     public int getOrderStatus() {
@@ -105,19 +105,19 @@ public class OrdersModelClass {
         this.phoneNumber = phoneNumber;
     }
 
-    public Date getDeliveryDate() {
+    public String getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(Date deliveryDate) {
+    public void setDeliveryDate(String deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 
-    public Date getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
     

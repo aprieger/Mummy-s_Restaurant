@@ -26,7 +26,6 @@ public class PackageOrderUI {
         
         ArrayList<JSONObject> listOfJsonObject = new ArrayList();
         listOfJsonObject = openPackageOrders.getOpenPkgOrdersByCustomer(customerId);
-        //todo: find method to query Packages for customer related packages
         
         try {
             for (JSONObject entry: listOfJsonObject) {
@@ -57,9 +56,8 @@ public class PackageOrderUI {
                 creditCardOption.CustomerCreditView(customerId);
             //food menu
             case 2: 
-                Package menu = new MenuUI();
-                //Does this need a parameter to be passed in?
-                menu.menuUI(customerId);
+                CustomerMenuUI menu = new CustomerMenuUI();
+                menu.goToMenuUI(customerId);
         }
     }
 }
