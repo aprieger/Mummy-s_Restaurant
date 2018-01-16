@@ -45,9 +45,9 @@ public class ServiceArea {
     
     public static int getNextServiceAreaId() {
         try {
-            ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT MAX(Area_Id) FROM ServiceAreas");
+            ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT MAX(Area_Id) MAX FROM ServiceAreas");
             if (!resultsAL.isEmpty())
-                return Integer.parseInt(resultsAL.get(0).get("AREA_ID").toString())+1;
+                return Integer.parseInt(resultsAL.get(0).get("MAX").toString())+1;
             else
                 return 1;
         } catch (JSONException e) {return -1;}

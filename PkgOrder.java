@@ -14,8 +14,8 @@ public class PkgOrder {
                 if (!packageResultsAL.isEmpty()) {
                     //Add the new open pkg order to the PkgOrders table (Note: IsOpen=1 and OrderId=0)
                     double pricePerPkg = Double.parseDouble(packageResultsAL.get(0).get("PRICE").toString());
-                    String updateStr = ("INSERT INTO PkgOrders (Pkg_Order_Id, Order_Id, Package_Id, Customer_Id, Price_Per_Pkg, Quantity, Is_Open)"
-                                + " VALUES ("+PkgOrder.getNextPkgOrderId()+","+0+","+packageId+","+customerId+","+pricePerPkg+","+quantity+","+1+")");
+                    String updateStr = ("INSERT INTO PkgOrders (Pkg_Order_Id, Order_Id, Package_Id, Customer_Id, Price_Per_Pkg, Quantity, Is_Open) "
+                                + "VALUES ("+PkgOrder.getNextPkgOrderId()+","+0+","+packageId+","+customerId+","+pricePerPkg+","+quantity+","+1+")");
                     Utilities.sendUpdate(updateStr);
                 }
                 else
@@ -92,9 +92,9 @@ public class PkgOrder {
         
     public static int getNextPkgOrderId() {
         try {
-            ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT MAX(Pkg_Order_Id) FROM PkgOrders");
+            ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT MAX(Pkg_Order_Id) AS MAX FROM PkgOrders");
             if (!resultsAL.isEmpty())
-                return Integer.parseInt(resultsAL.get(0).get("PKG_ORDER_ID").toString())+1;
+                return Integer.parseInt(resultsAL.get(0).get("MAX").toString())+1;
             else
                 return 1;
         } catch (JSONException e) {System.out.println(e); return -1;}
@@ -112,14 +112,14 @@ public class PkgOrder {
     }
     
     public static ArrayList<JSONObject> getOpenPkgOrdersByCustomer(int Customer_Id) {
-        return Utilities.sendQuery("SELECT O.Pkg_Order_Id, P.Name, P.Meal_Category, O.Price_Per_Pkg, O.Quantity, S.Name AS SERVICE_AREA"
+        return Utilities.sendQuery("SELECT O.Pkg_Order_Id, P.Name, P.Meal_Category, O.Price_Per_Pkg, O.Quantity, S.Name AS SERVICE_AREA "
                 + "FROM PkgOrders O, Packages P, ServiceAreas S "
                 + "WHERE P.Package_Id=O.Package_Id AND O.Customer_Id="+Customer_Id+" AND S.Package_Id=P.Package_Id AND O.Is_Open=1");
     }
     
     public static ArrayList<JSONObject> getAllPkgOrdersByOrder(int OrderId) {
-        return Utilities.sendQuery("SELECT O.Pkg_Order_Id, P.Name, P.Meal_Category, O.Price_Per_Pkg, O.Quantity, S.Name AS SERVICE_AREA"
-                + "FROM PkgOrders O, Packages P, ServiceAreas S"
+        return Utilities.sendQuery("SELECT O.Pkg_Order_Id, P.Name, P.Meal_Category, O.Price_Per_Pkg, O.Quantity, S.Name AS SERVICE_AREA "
+                + "FROM PkgOrders O, Packages P, ServiceAreas S "
                 + "WHERE P.Package_Id=O.Package_Id AND O.Order_Id="+OrderId+" AND S.Package_Id=P.Package_Id");
     }
     
