@@ -1,0 +1,5 @@
+INSERT INTO Packages (Package_Id, Name, Description, Meal_Category, Image_Source, Price, Is_Special, Meal_Type) VALUES (1,'Ramen','Noodles in Broth',1,'img.src',2.99,0,1);
+INSERT INTO Packages (Package_Id, Name, Description, Meal_Category, Image_Source, Price, Is_Special, Meal_Type) VALUES (2,'Chicken Tikka Masala','Grilled chicken in spiced tomato gravy',2,'img.src',7.99,1,2);
+INSERT INTO Packages (Package_Id, Name, Description, Meal_Category, Image_Source, Price, Is_Special, Meal_Type) VALUES (3,'Tandoori Chicken','Barbeque chicken over basmati rice',1,'img.src',5.99,0,3);
+INSERT INTO Packages (Package_Id, Name, Description, Meal_Category, Image_Source, Price, Is_Special, Meal_Type)	VALUES (4,'Palak Paneer','Spinach and fenugreek blended with cottage cheese',0,'img.src',4.99,1,0);
+INSERT INTO Packages (Package_Id, Name, Description, Meal_Category, Image_Source, Price, Is_Special, Meal_Type)	VALUES (5,'Rogan Josh','Roasted lamb with red chilies',2,'img.src',6.99,0,2);

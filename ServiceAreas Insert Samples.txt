@@ -1,0 +1,5 @@
+INSERT INTO ServiceAreas (Area_Id, Name, Area_Code, Package_Id, Tax_Rate) VALUES (1,'Discovery Gardens',85027,1,.083);
+INSERT INTO ServiceAreas (Area_Id, Name, Area_Code, Package_Id, Tax_Rate) VALUES (2,'Dubai Internet City',85044,2,.081);
+INSERT INTO ServiceAreas (Area_Id, Name, Area_Code, Package_Id, Tax_Rate) VALUES (3,'Dubai Marina/JBR',85032,3,.085);
+INSERT INTO ServiceAreas (Area_Id, Name, Area_Code, Package_Id, Tax_Rate) VALUES (4,'Jumeriah Islands',85001,4,.087);
+INSERT INTO ServiceAreas (Area_Id, Name, Area_Code, Package_Id, Tax_Rate) VALUES (5,'Knowledge Village',85054,5,.089);
