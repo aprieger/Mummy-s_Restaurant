@@ -6,7 +6,8 @@ CREATE TABLE CustomerAccounts(
     City varchar(75),
     State varchar(2),
     Area_Code int,
-    Phone_Number varchar(12),
+    Phone_Number varchar2(12),
     Username varchar(25),
-    Password varchar(25)
+    Password varchar(25),
+    enabled int;
 );
