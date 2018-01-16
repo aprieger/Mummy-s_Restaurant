@@ -61,17 +61,24 @@ public class Package {
         } catch (JSONException e) {return -1;}
     }
     
-    public static String getMenu() {
-        ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT P.Package_Id, P.Name, P.Meal_Category, P.Price, P.Is_Special, P.Meal_Type, S.Name AS SERVICE_AREA FROM Packages P, ServiceAreas S WHERE P.Package_Id=S.Package_Id ORDER BY Package_Id ASC");
+    public static ArrayList<JSONObject> getSinglePackageData(int inputPackageId) {
+        return Utilities.sendQuery("SELECT * FROM Packages WHERE Package_Id="+inputPackageId);
+    }
+    public static ArrayList<JSONObject> getAllPackageData() {
+        return Utilities.sendQuery("SELECT * FROM Packages");
+    }
+    
+    public static String getMenuString() {
+        ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT Package_Id, Name, Meal_Category, Price, Is_Special, Meal_Type FROM Packages ORDER BY Package_Id ASC");
         String output = String.format("%1$60s","Menu\n");
         output+= "--------------------------------------------------------------------------------------------------------------------------------------------\n";
-        output+=String.format("%-20s%-20s%-20s%-20s%-20s%-20s%-20s%n","|Package Number","|Name",
-                "|Meal Category","|Price", "|Specialty Item","|Meal Type","|Service Area");
+        output+=String.format("%-20s%-20s%-20s%-20s%-20s%-20s%n","|Package Number","|Name",
+                "|Meal Category","|Price", "|Specialty Item","|Meal Type");
         output+= "--------------------------------------------------------------------------------------------------------------------------------------------\n";
         if (!resultsAL.isEmpty()) {
             try {
                 int rowCount = resultsAL.size();
-                String[] columnNames = new String[]{"PACKAGE_ID","NAME","MEAL_CATEGORY","PRICE","IS_SPECIAL","MEAL_TYPE","SERVICE_AREA"};
+                String[] columnNames = new String[]{"PACKAGE_ID","NAME","MEAL_CATEGORY","PRICE","IS_SPECIAL","MEAL_TYPE"};
                 int columnCount = columnNames.length;
                 for (int i=0; i<rowCount; i++) {
                     for (int j=0; j<columnCount; j++) {
@@ -111,13 +118,13 @@ public class Package {
         else
             return "";
     }
-    
+        
     public static String getStringFromJSON(ArrayList<JSONObject> resultsAL) {
         if (!resultsAL.isEmpty()) {
             String output="";
             try {
                 int rowCount = resultsAL.size();
-                String[] columnNames = new String[]{"PACKAGE_ID","NAME","DESCRIPTION","MEAL_CATEGORY","IMAGE_SOURCE","PRICE","IS_SPECIAL","MEAL_TYPE","SERVICE_AREA"};
+                String[] columnNames = new String[]{"PACKAGE_ID","NAME","DESCRIPTION","MEAL_CATEGORY","IMAGE_SOURCE","PRICE","IS_SPECIAL","MEAL_TYPE"};
                 int columnCount = columnNames.length;
                 for (int i=0; i<rowCount; i++) {
                     for (int j=0; j<columnCount; j++) {
@@ -154,12 +161,5 @@ public class Package {
         }
         else
             return "";
-    }
-    
-    public static ArrayList<JSONObject> getSinglePackageData(int inputPackageId) {
-        return Utilities.sendQuery("SELECT P.Package_Id, P.Name, P.Description, P.Meal_Category, P.Image_Source, P.Price, P.Is_Special, P.Meal_Type, S.Name AS SERVICE_AREA FROM Packages P, ServiceAreas S WHERE P.Package_Id="+inputPackageId+" AND S.Package_Id="+inputPackageId);
-    }
-    public static ArrayList<JSONObject> getAllPackageData(int inputPackageId) {
-        return Utilities.sendQuery("SELECT P.Package_Id, P.Name, P.Description, P.Meal_Category, P.Image_Source, P.Price, P.Is_Special, P.Meal_Type, S.Name AS SERVICE_AREA FROM Packages P, ServiceAreas S WHERE P.Package_Id=S.Package_Id");
     }
 }

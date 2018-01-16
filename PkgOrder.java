@@ -13,9 +13,9 @@ public class PkgOrder {
                 ArrayList<JSONObject> packageResultsAL = Utilities.sendQuery("SELECT Package_Id, Name, Description, Meal_Category, Image_Source, Price, Is_Special, Meal_Type from Packages WHERE Package_Id="+packageId);
                 if (!packageResultsAL.isEmpty()) {
                     //Add the new open pkg order to the PkgOrders table (Note: IsOpen=1 and OrderId=0)
-                    double pricePerPkgStr = Double.parseDouble(packageResultsAL.get(0).get("PRICE").toString());
+                    double pricePerPkg = Double.parseDouble(packageResultsAL.get(0).get("PRICE").toString());
                     String updateStr = ("INSERT INTO PkgOrders (Pkg_Order_Id, Order_Id, Package_Id, Customer_Id, Price_Per_Pkg, Quantity, Is_Open)"
-                                + " VALUES ("+PkgOrder.getNextPkgOrderId()+","+0+","+packageId+","+customerId+","+pricePerPkgStr+","+quantity+","+1+")");
+                                + " VALUES ("+PkgOrder.getNextPkgOrderId()+","+0+","+packageId+","+customerId+","+pricePerPkg+","+quantity+","+1+")");
                     Utilities.sendUpdate(updateStr);
                 }
                 else
@@ -89,7 +89,7 @@ public class PkgOrder {
     public static void deletePkgOrder(int deletePkgOrderId) {
         Utilities.sendUpdate("DELETE FROM PkgOrders WHERE Pkg_Order_Id="+deletePkgOrderId);
     }
-    
+        
     public static int getNextPkgOrderId() {
         try {
             ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT MAX(Pkg_Order_Id) FROM PkgOrders");
@@ -123,28 +123,6 @@ public class PkgOrder {
                 + "WHERE P.Package_Id=O.Package_Id AND O.Order_Id="+OrderId+" AND S.Package_Id=P.Package_Id");
     }
     
-    public static String getStringFromJSON(ArrayList<JSONObject> resultsAL) {
-        if (!resultsAL.isEmpty()) {
-            String output="";
-            try {
-                int rowCount = resultsAL.size();
-                String[] columnNames = new String[]{"PKG_ORDER_ID","ORDER_ID","PACKAGE_ID","CUSTOMER_ID","PRICE_PER_PKG","QUANTITY","IS_OPEN"};
-                int columnCount = columnNames.length;
-                for (int i=0; i<rowCount; i++) {
-                    for (int j=0; j<columnCount; j++) {
-                        if (resultsAL.get(i).has(columnNames[j]))
-                            output += columnNames[j] + ": " + resultsAL.get(i).get(columnNames[j]) + "\n";
-                        else
-                            output += columnNames[j] + ":\n";
-                    }
-                }
-                return output;
-            } catch (JSONException e) {return output+e;}
-        }
-        else
-            return "";
-    }
-    
     public static ArrayList<JSONObject> getAllClosedPkgOrders() {
         return Utilities.sendQuery("SELECT * FROM PkgOrders WHERE Is_Open=0");
     }
@@ -164,5 +142,25 @@ public class PkgOrder {
             }
             return finalPrice;
         } catch (JSONException e) {return 0.0;}
+    }
+    
+    public static String getStringFromJSON(ArrayList<JSONObject> resultsAL) {
+        if (!resultsAL.isEmpty()) {
+            String output="";
+            try {
+                int rowCount = resultsAL.size();
+                String[] columnNames = new String[]{"PKG_ORDER_ID","ORDER_ID","PACKAGE_ID","CUSTOMER_ID","PRICE_PER_PKG","QUANTITY","IS_OPEN"};
+                int columnCount = columnNames.length;
+                for (int i=0; i<rowCount; i++) {
+                    for (int j=0; j<columnCount; j++) {
+                        if (resultsAL.get(i).has(columnNames[j]))
+                            output += columnNames[j] + ": " + resultsAL.get(i).get(columnNames[j]) + "\n";
+                    }
+                }
+                return output;
+            } catch (JSONException e) {return output+e;}
+        }
+        else
+            return "";
     }
 }

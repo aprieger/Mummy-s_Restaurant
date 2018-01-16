@@ -53,19 +53,29 @@ public class ServiceArea {
         } catch (JSONException e) {return -1;}
     }
     
+    public static ArrayList<JSONObject> getSingleServiceAreaData(int inputAreaId) {
+        return Utilities.sendQuery("SELECT * FROM ServiceAreas WHERE Area_Id="+inputAreaId);
+    }
+    
+    public static ArrayList<JSONObject> getAllServiceAreaNamesByPackageID(int inputPackageId) {
+        return Utilities.sendQuery("SELECT Name AS SERVICE_AREA FROM ServiceAreas WHERE Package_Id="+inputPackageId);
+    }
+    
+    public static ArrayList<JSONObject> getAllServiceAreaData() {
+        return Utilities.sendQuery("SELECT * FROM ServiceAreas");
+    }
+    
     public static String getStringFromJSON(ArrayList<JSONObject> resultsAL) {
         if (!resultsAL.isEmpty()) {
             String output="";
             try {
                 int rowCount = resultsAL.size();
-                String[] columnNames = new String[]{"AREA_ID","PACKAGE_ID","NAME","AREA_CODE","TAX_RATE"};
+                String[] columnNames = new String[]{"AREA_ID","PACKAGE_ID","NAME","AREA_CODE","TAX_RATE","SERVICE_AREA"};
                 int columnCount = columnNames.length;
                 for (int i=0; i<rowCount; i++) {
                     for (int j=0; j<columnCount; j++) {
                         if (resultsAL.get(i).has(columnNames[j]))
                             output += columnNames[j] + ": " + resultsAL.get(i).get(columnNames[j]) + "\n";
-                        else
-                            output += columnNames[j] + ":\n";
                     }
                 }
                 return output;
@@ -73,13 +83,5 @@ public class ServiceArea {
         }
         else
             return "";
-    }
-    
-    public static ArrayList<JSONObject> getSingleServiceAreaData(int inputPackageId) {
-        return Utilities.sendQuery("SELECT * FROM ServiceAreas WHERE Area_Id="+inputPackageId);
-    }
-    
-    public static ArrayList<JSONObject> getAllServiceAreaData(int inputPackageId) {
-        return Utilities.sendQuery("SELECT * FROM ServiceAreas");
     }
 }
