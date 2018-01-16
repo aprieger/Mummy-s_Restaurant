@@ -32,6 +32,7 @@ public class EditCustomersUI {
                         rs = stmt.executeQuery(statement);
                         rs.next();
                         int flag = rs.getInt("flag");
+                        rs.close();
                         if (flag == 0) {
                             flag = 1;
                         } else {
