@@ -24,7 +24,7 @@ public class GreetingUI {
         do { 
             System.out.println("Welcome to Munny's Restaurant. Please select an option.\n"
                 + "[1]: Enter 1 to access customer login."
-                + "[2]: Enter 2 to access customer login."
+                + "[2]: Enter 2 to access employee login."
                 + "[6]: Exit program");
         
         
@@ -35,10 +35,10 @@ public class GreetingUI {
        
             switch(userInput){
                 case 1:
-                    AdminWorkerRecordsUI.adminUI();
+                    //
                     break;       
                 case 2: 
-                    //
+                    AdminWorkerRecordsUI.adminUI();
                     break;
                 case 6:
                     System.exit(0);
