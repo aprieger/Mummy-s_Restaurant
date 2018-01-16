@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MummysRestaurant;
+package MummysRestaurant.UI;
 
 //imports will change when proper directories are established
 import MummysRestaurant.OrdersDataAccess;
