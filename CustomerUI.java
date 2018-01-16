@@ -86,7 +86,7 @@ public class CustomerUI {
                         int key = rs.getInt("key") + 1;
                         rs.close();
                         String longstmt = "INSERT into CustomerAccounts "
-                                + "values (" + key + ", '" + firstName + "', '" + lastName + "', '" + street + "', '" + city + "', '" + state + "', " + areaCode + ", '" + phoneNumber + "', '" + id + "', '" + pwd + "')";
+                                + "values (" + key + ", '" + firstName + "', '" + lastName + "', '" + street + "', '" + city + "', '" + state + "', " + areaCode + ", '" + phoneNumber + "', '" + id + "', '" + pwd + "', 0)";
                         stmt.executeQuery(longstmt);
                 }
             }
