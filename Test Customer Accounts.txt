@@ -1,0 +1,18 @@
+Primary Key starts at 1 and increments automatically
+
+Enabled is set to 0 when an account is created
+
+Create accounts and sign in with the CustomerUI class
+
+
+First_Name   Last_Name   Street          City      State   Area_Code   Phone_Number   Username   Password
+----------   ---------   -------------   -------   -----   ---------   ------------   --------   --------
+Ben	     Ambri       123 Syntel St   Phoenix   AZ      85027       480-313-2852   bambri     test1
+----------   ---------   -------------   -------   -----   ---------   ------------   --------   --------
+Carl         Gramata     123 Syntel St   Phoenix   AZ      85027       708-446-3145   cgramata   test2
+----------   ---------   -------------   -------   -----   ---------   ------------   --------   --------
+Aaron        Preiger     123 Syntel St   Phoenix   AZ      85027       602-558-1480   aprieger   test3
+----------   ---------   -------------   -------   -----   ---------   ------------   --------   --------
+Ron          Lawton      123 Syntel St   Phoenix   AZ      85027       386-585-0771   rlawton    test4
+----------   ---------   -------------   -------   -----   ---------   ------------   --------   --------
+Mike         Nolan       123 Syntel St   Phoenix   AZ      85027       805-404-0547   mnolan     test5
