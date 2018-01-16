@@ -248,12 +248,12 @@ public class OrdersDataAccess {
     } 
     
     //TODO: need to finish this method, actual parameter type missing
-    public static void insertNewOrdersRow(Object pkgOrderObject) throws SQLException{
+    public static void insertNewOrdersRow(int orderId, JSONObject pkgOrderObject) throws SQLException{
         
         String sqlQuery = "select * from orders";
          
         try {
-            int idForNewRow = idOrdersGenerator();
+            int idForNewRow = orderId;
             //established connectioned to oracle account through a driver
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
             //established a statement connection
@@ -264,7 +264,7 @@ public class OrdersDataAccess {
             //TODO: assign actual values from CUSTOMER_ID down
             queryResults.moveToInsertRow();
             queryResults.updateInt("ORDER_ID", idForNewRow);
-            queryResults.updateInt("CUSTOMER_ID", idForNewRow);
+            queryResults.updateInt("CUSTOMER_ID", pkgOrderObject);
             queryResults.updateInt("CREDIT_ID", idForNewRow);
             queryResults.updateInt("PAYMENTMENT_TYPE", idForNewRow);
             queryResults.updateInt("TOTAL_PRICE", idForNewRow);
