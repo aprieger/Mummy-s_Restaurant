@@ -11,7 +11,13 @@ public class OrdersDataAccess {
     public static ArrayList<JSONObject> getAllOrdersForToday(String deliveryDate) throws SQLException, JSONException{
         try {
             //query to be used to retrieve all rows from Orders
-            String sqlQuery = "select * from orders where delivery_date like '" + deliveryDate + "%'";
+            String sqlQuery = "select o.*, p.name, p.description, p.meal_category, " +
+                    "po.quantity " +
+                    "from orders o, pkgorders po, packages p" + 
+                    "where (o.order_id = po.order_id) and " + 
+                    "(po.package_id = p.package_id) " +
+                    "and o.delivery_date like '" + deliveryDate + "%' "+
+                    "group by o.order_id";
             //established connectioned to oracle account through a driver
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
             //established a statement connection
@@ -67,7 +73,7 @@ public class OrdersDataAccess {
         
     //Returns an ArrayList of JSONObjects that belong to a specific customer
     //Index out the ArrayList and use .get() with the key as a parameter to retrieve the column value
-    //ex: getAllRowsForCustomer(4).get(0).get("ORDER_DATE")
+    //ex: getAllRowsForCustomer(4).get(0).get("ORDER_DATE") NOTE: 4 is the customerID
     public static ArrayList<JSONObject> getCustomerOrdersCustomerID(int customerID) throws SQLException, JSONException{
         try {
 
@@ -277,7 +283,7 @@ public class OrdersDataAccess {
     }
     
     //returns an id during the creation of an orders row
-    public static Integer idOrdersGenerator() throws SQLException{
+    public static int idOrdersGenerator() throws SQLException{
         //stores existing IDs from orders
         int largestId = 0;        
         //SQL query to return all the ids from orders
