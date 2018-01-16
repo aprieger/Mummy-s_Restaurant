@@ -38,9 +38,9 @@ public class PackageOrderUI {
         }
         
         System.out.println("Please select and enter payment type:\n"
-                + "[1]: For cash\n"
-                + "[2]: For Credit\n"
-                + "[3]: Return to the menu");
+                + "[0]: For cash\n"
+                + "[1]: For Credit\n"
+                + "[2]: Return to the menu");
         
         Scanner scanner = new Scanner(System.in);
         
@@ -48,15 +48,15 @@ public class PackageOrderUI {
         
         switch (userInput) {
             //cash
-            case 1: 
+            case 0: 
                 ConfirmationUI confirmation = new ConfirmationUI();
                 confirmation.mainConfirmationView(customerId);
             //credit
-            case 2:
+            case 1:
                 CreditCardUI creditCardOption = new CreditCardUI();
                 CustomerCreditView(customerId);
             //food menu
-            case 3: 
+            case 2: 
                 Package menu = new MenuUI();
                 //Does this need a parameter to be passed in?
                 menu.menuUI(customerId);

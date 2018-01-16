@@ -35,7 +35,8 @@ public class ConfirmationUI {
         } catch (JSONException je) {
             System.out.println(je);
         }
-        
+        System.out.println("Total Price: $" + finalPrice);
+        System.out.println("Payment:\nCredit Card ending with: " + need to get the last 4 of credit card);
         System.out.println("Please choose and enter an option:\n"
                 + "[1]: To confirm order\n"
                 + "[2]: To cancel and start over");
