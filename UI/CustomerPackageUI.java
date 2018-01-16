@@ -4,6 +4,7 @@ public class CustomerPackageUI {
     public void goToPackageUI(int packageId, int customerId) {
         Scanner read = new Scanner(System.in);
         System.out.println(Package.getStringFromJSON(Package.getSinglePackageData(packageId)));
+        System.out.println(ServiceArea.getStringFromJSON(ServiceArea.getAllServiceAreaNamesByPackageID(packageId)));
         System.out.println("-->Enter 1 to add the package to cart\n"
                 + "-->Enter 2 to go back to the menu");
 
