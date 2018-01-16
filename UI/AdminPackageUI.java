@@ -222,7 +222,7 @@ public class AdminPackageUI {
             System.out.println("---->Enter the package id to edit");
             String userInput = read.nextLine().trim();
             if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT COUNT(*) FROM Packages WHERE Package_Id="+userInput);
+                ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT * FROM Packages WHERE Package_Id="+userInput);
                 if (!resultsAL.isEmpty()) {
                     editPackageId=Integer.parseInt(userInput);
                     System.out.println("Package Info:\n"+Package.getStringFromJSON(Package.getSinglePackageData(editPackageId)));
@@ -337,35 +337,33 @@ public class AdminPackageUI {
     public static void adminDeletePackageUI() {
         boolean done=false;
         Scanner read = new Scanner(System.in);
-        int deletePackageId=0;
+        int deletePackageId;
         while (done==false) {
             System.out.println("---->Enter the package id to delete");
             String userInput = read.nextLine().trim();
-            try {
-                if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                    ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT COUNT(*) FROM Packages WHERE Package_Id="+userInput);
-                    if (!resultsAL.isEmpty()) {
-                        deletePackageId=Integer.parseInt(userInput);
-                        System.out.println("Package Info:\n"+Package.getStringFromJSON(Package.getSinglePackageData(deletePackageId))+"\nConfirm Delete: 1 for yes, 0 for no");
-                        userInput = read.nextLine().trim();
-                        if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
-                            if (userInput.equals("1")) {
-                                Package.deletePackage(deletePackageId);
-                                System.out.println(">>>>Package deleted");
-                                done=true;
-                            }
-                            else if (userInput.equals("1"))
-                                done=true;
+            if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
+                ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT * FROM Packages WHERE Package_Id="+userInput);
+                if (!resultsAL.isEmpty()) {
+                    deletePackageId=Integer.parseInt(userInput);
+                    System.out.println("Package Info:\n"+Package.getStringFromJSON(Package.getSinglePackageData(deletePackageId))+"\nConfirm Delete: 1 for yes, 0 for no");
+                    userInput = read.nextLine().trim();
+                    if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
+                        if (userInput.equals("1")) {
+                            Package.deletePackage(deletePackageId);
+                            System.out.println(">>>>Package deleted");
+                            done=true;
                         }
-                        else 
-                            System.out.println(">>>>Invalid input");
+                        else if (userInput.equals("1"))
+                            done=true;
                     }
-                    else
-                        System.out.println("Error: Package Id not found");
+                    else 
+                        System.out.println(">>>>Invalid input");
                 }
-                else 
-                    System.out.println("Error: Invalid Input");
-            }catch (Exception e) {};
+                else
+                    System.out.println("Error: Package Id not found");
+            }
+            else 
+                System.out.println("Error: Invalid Input");
         }
     }
 }

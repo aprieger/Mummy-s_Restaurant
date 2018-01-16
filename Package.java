@@ -1,12 +1,6 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.Statement;
 import java.util.ArrayList;
 import org.json.JSONObject;
-import org.json.JSONArray;
+import org.json.JSONException;
 
 public class Package {  
     public static void addPackage(String addName, String addDescription, 
@@ -64,21 +58,20 @@ public class Package {
             return Integer.parseInt(resultsAL.get(0).get("MAX(PACKAGE_ID)").toString())+1;
         else
             return 1;
-        } catch (Exception e) {return -1;}
+        } catch (JSONException e) {return -1;}
     }
     
     public static String getMenu() {
-        ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT Package_Id, Name, Meal_Category, Price, Is_Special, Meal_Type FROM Packages ORDER BY Package_Id ASC");
+        ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT P.Package_Id, P.Name, P.Meal_Category, P.Price, P.Is_Special, P.Meal_Type, S.Name AS SERVICE_AREA FROM Packages P, ServiceAreas S WHERE P.Package_Id=S.Package_Id ORDER BY Package_Id ASC");
         String output = String.format("%1$60s","Menu\n");
-        output+= "------------------------------------------------------------------------------------------------------------------------\n";
-        output+=String.format("%-20s%-20s%-20s%-20s%-20s%-20s%n","|Package Number","|Name",
-                "|Meal Category","|Price", "|Specialty Item","|Meal Type");
-        output+= "------------------------------------------------------------------------------------------------------------------------\n";
-        int aLIndex = 0;
+        output+= "--------------------------------------------------------------------------------------------------------------------------------------------\n";
+        output+=String.format("%-20s%-20s%-20s%-20s%-20s%-20s%-20s%n","|Package Number","|Name",
+                "|Meal Category","|Price", "|Specialty Item","|Meal Type","|Service Area");
+        output+= "--------------------------------------------------------------------------------------------------------------------------------------------\n";
         if (!resultsAL.isEmpty()) {
             try {
                 int rowCount = resultsAL.size();
-                String[] columnNames = new String[]{"PACKAGE_ID","NAME","MEAL_CATEGORY","PRICE","IS_SPECIAL","MEAL_TYPE"};
+                String[] columnNames = new String[]{"PACKAGE_ID","NAME","MEAL_CATEGORY","PRICE","IS_SPECIAL","MEAL_TYPE","SERVICE_AREA"};
                 int columnCount = columnNames.length;
                 for (int i=0; i<rowCount; i++) {
                     for (int j=0; j<columnCount; j++) {
@@ -113,7 +106,7 @@ public class Package {
                     output += String.format("\n");
                 }
                 return output;
-            } catch (Exception e) {return output+e;}
+            } catch (JSONException e) {return output+e;}
         }
         else
             return "";
@@ -124,7 +117,7 @@ public class Package {
             String output="";
             try {
                 int rowCount = resultsAL.size();
-                String[] columnNames = new String[]{"PACKAGE_ID","NAME","DESCRIPTION","MEAL_CATEGORY","IMAGE_SOURCE","PRICE","IS_SPECIAL","MEAL_TYPE"};
+                String[] columnNames = new String[]{"PACKAGE_ID","NAME","DESCRIPTION","MEAL_CATEGORY","IMAGE_SOURCE","PRICE","IS_SPECIAL","MEAL_TYPE","SERVICE_AREA"};
                 int columnCount = columnNames.length;
                 for (int i=0; i<rowCount; i++) {
                     for (int j=0; j<columnCount; j++) {
@@ -154,22 +147,19 @@ public class Package {
                             else
                                 output += columnNames[j] + ": " + resultsAL.get(i).get(columnNames[j]) + "\n";
                         }
-                        else
-                            output += columnNames[j] + ":\n";
                     }
                 }
                 return output;
-            } catch (Exception e) {return output+e;}
+            } catch (JSONException e) {return output+e;}
         }
         else
             return "";
     }
     
     public static ArrayList<JSONObject> getSinglePackageData(int inputPackageId) {
-        return Utilities.sendQuery("SELECT * FROM Packages WHERE Package_Id="+inputPackageId);
+        return Utilities.sendQuery("SELECT P.Package_Id, P.Name, P.Description, P.Meal_Category, P.Image_Source, P.Price, P.Is_Special, P.Meal_Type, S.Name AS SERVICE_AREA FROM Packages P, ServiceAreas S WHERE P.Package_Id="+inputPackageId+" AND S.Package_Id="+inputPackageId);
     }
-    
     public static ArrayList<JSONObject> getAllPackageData(int inputPackageId) {
-        return Utilities.sendQuery("SELECT * FROM Packages");
+        return Utilities.sendQuery("SELECT P.Package_Id, P.Name, P.Description, P.Meal_Category, P.Image_Source, P.Price, P.Is_Special, P.Meal_Type, S.Name AS SERVICE_AREA FROM Packages P, ServiceAreas S WHERE P.Package_Id=S.Package_Id");
     }
 }

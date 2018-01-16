@@ -7,7 +7,7 @@ public class CustomerMenuUI {
             System.out.println(Package.getMenu()
                     + "-->Enter the package number to view\n"
                     + "-->Enter \"Checkout\" to go to Checkout");
-            String userInput="";
+            String userInput;
             userInput = read.nextLine().trim();
             if (userInput.toLowerCase().equals("checkout")) {
                 System.out.println(">>>>To checkout");
