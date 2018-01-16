@@ -20,9 +20,18 @@ public class OrdersModelClass {
     private String street;
     private String city;
     private int areaCode;
-    private int phoneNumber;
+    private String phoneNumber;
     private Date deliveryDate;
     private Date orderDate;
+    private int orderStatus;
+
+    public int getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(int orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 
     public int getOrderID() {
         return orderID;
@@ -88,11 +97,11 @@ public class OrdersModelClass {
         this.areaCode = areaCode;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

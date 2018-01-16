@@ -87,7 +87,7 @@ public class OrdersDataAccess {
             ResultSet queryResults = statement.executeQuery(sqlQuery);
             
             //Converts Resultset to an ArrayList of Json objects
-            ArrayList listOfJsonObjects = new ArrayList<JSONObject>();
+            ArrayList<JSONObject> listOfJsonObjects = new ArrayList();
             while(queryResults.next()) {
                 int totalColumns = queryResults.getMetaData().getColumnCount();
                 JSONObject columnValuePair = new JSONObject();
@@ -248,12 +248,11 @@ public class OrdersDataAccess {
     } 
     
     //TODO: need to finish this method, actual parameter type missing
-    public static void insertNewOrdersRow(Object pkgOrderObject) throws SQLException{
+    public void insertNewOrdersRow(OrdersModelClass orderObject) throws SQLException{
         
         String sqlQuery = "select * from orders";
          
         try {
-            int idForNewRow = idOrdersGenerator();
             //established connectioned to oracle account through a driver
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
             //established a statement connection
@@ -263,17 +262,18 @@ public class OrdersDataAccess {
             
             //TODO: assign actual values from CUSTOMER_ID down
             queryResults.moveToInsertRow();
-            queryResults.updateInt("ORDER_ID", idForNewRow);
-            queryResults.updateInt("CUSTOMER_ID", idForNewRow);
-            queryResults.updateInt("CREDIT_ID", idForNewRow);
-            queryResults.updateInt("PAYMENTMENT_TYPE", idForNewRow);
-            queryResults.updateInt("TOTAL_PRICE", idForNewRow);
-            queryResults.updateString("STREET", idForNewRow);
-            queryResults.updateString("CITY", idForNewRow);
-            queryResults.updateInt("AREA_CODE", idForNewRow);
-            queryResults.updateString("PHONE_NUMBER", idForNewRow);
-            queryResults.updateTimestamp("DELIVERY_DATE", idForNewRow);
-            queryResults.updateTimestamp("ORDER_DATE", idForNewRow);
+            queryResults.updateInt("ORDER_ID", orderObject.getOrderID());
+            queryResults.updateInt("CUSTOMER_ID", orderObject.getCustomerID());
+            queryResults.updateInt("CREDIT_ID", orderObject.getCreditID());
+            queryResults.updateInt("PAYMENTMENT_TYPE", orderObject.getPaymentType());
+            queryResults.updateDouble("TOTAL_PRICE", orderObject.getTotalPrice());
+            queryResults.updateString("STREET", orderObject.getStreet());
+            queryResults.updateString("CITY", orderObject.getCity());
+            queryResults.updateInt("AREA_CODE", orderObject.getAreaCode());
+            queryResults.updateString("PHONE_NUMBER", orderObject.getPhoneNumber());
+            queryResults.updateTimestamp("DELIVERY_DATE", orderObject.getDeliveryDate());
+            queryResults.updateTimestamp("ORDER_DATE", orderObject.getOrderDate());
+            queryResults.updateInt("ORDER_STATUS", orderObject.getOrderStatus());
             queryResults.insertRow();
             
         } catch (SQLException se){
@@ -283,7 +283,7 @@ public class OrdersDataAccess {
     }
     
     //returns an id during the creation of an orders row
-    public static int idOrdersGenerator() throws SQLException{
+    public int idOrdersGenerator() throws SQLException{
         //stores existing IDs from orders
         int largestId = 0;        
         //SQL query to return all the ids from orders
