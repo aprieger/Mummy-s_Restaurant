@@ -1,175 +1,163 @@
-
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.Statement;
 import java.util.ArrayList;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class PkgOrder {
-    public static void addOpenPkgOrder(int packageId, int customerId, 
-            double pricePerPkg, int quantity, int isOpen) {
-            String updateStr = ("INSERT INTO Pkg_Orders (Pkg_Order_Id, Order_Id, Package_Id, Customer_Id, Price_Per_Pkg, Quantity, Is_Open)"
-                    + " VALUES ("+PkgOrder.getNextPkgOrderId()+",'"+0+"','"+packageId+"',"+customerId+",'"+pricePerPkg+"',"+quantity+","+isOpen+")");
-            PkgOrder.sendUpdate(updateStr);
+    public static void addOpenPkgOrder(int packageId, int customerId, int quantity) {
+        try {
+            //Checks if there is a customer account with the specifiec customer id in the CustomerAccounts table
+            ArrayList<JSONObject> customerResultsAL = Utilities.sendQuery("SELECT * from CustomerAccounts WHERE Customer_Id="+customerId);
+            if (!customerResultsAL.isEmpty()) {
+                //Cehck if there is a package with the specified package id in the Packages table
+                ArrayList<JSONObject> packageResultsAL = Utilities.sendQuery("SELECT Package_Id, Name, Description, Meal_Category, Image_Source, Price, Is_Special, Meal_Type from Packages WHERE Package_Id="+packageId);
+                if (!packageResultsAL.isEmpty()) {
+                    //Add the new open pkg order to the PkgOrders table (Note: IsOpen=1 and OrderId=0)
+                    double pricePerPkgStr = Double.parseDouble(packageResultsAL.get(0).get("PRICE").toString());
+                    String updateStr = ("INSERT INTO PkgOrders (Pkg_Order_Id, Order_Id, Package_Id, Customer_Id, Price_Per_Pkg, Quantity, Is_Open)"
+                                + " VALUES ("+PkgOrder.getNextPkgOrderId()+","+0+","+packageId+","+customerId+","+pricePerPkgStr+","+quantity+","+1+")");
+                    Utilities.sendUpdate(updateStr);
+                }
+                else
+                    System.out.println(">>>>Error: package does not exist in table");
+            }
+            else
+                System.out.println(">>>>Error: customer does not exist in table");
+        } catch (Exception e){System.out.println(e);}
     }
     
     public static void editOrderId(int pkgOrderId, int newOrderId) {
-        PkgOrder.sendUpdate("UPDATE Pkg_Orders SET Order_Id="
-                +newOrderId+" WHERE Pkg_Order_Id="+pkgOrderId);
+        //Check if there is an order with the specified order id in the Orders table
+        ArrayList<JSONObject> ordersResultsAL = Utilities.sendQuery("SELECT * from Orders WHERE Order_Id="+newOrderId);
+        if (!ordersResultsAL.isEmpty())
+            Utilities.sendUpdate("UPDATE PkgOrders SET Order_Id="
+                    +newOrderId+" WHERE Pkg_Order_Id="+pkgOrderId);
+        else
+            System.out.println(">>>>Error: Order doesn't exist");
     }
     
     public static void editPackageId(int pkgOrderId, int newPackageId) {
-        PkgOrder.sendUpdate("UPDATE Pkg_Orders SET Package_Id="
-                +newPackageId+" WHERE Pkg_Order_Id="+pkgOrderId);
+        try {
+            ArrayList<JSONObject> packageResultsAL = Utilities.sendQuery("SELECT Package_Id, Price from Packages WHERE Package_Id="+newPackageId);
+            //Check if there is a package with the specified package id in the Package table and get the price
+            if (!packageResultsAL.isEmpty()) {
+                //update the package id
+                Utilities.sendUpdate("UPDATE PkgOrders SET Package_Id="
+                        +newPackageId+" WHERE Pkg_Order_Id="+pkgOrderId);
+                //update the price per pkg
+                Utilities.sendUpdate("UPDATE PkgOrders SET Price_Per_Pkg="
+                        +packageResultsAL.get(0).get("PRICE").toString()+" WHERE Pkg_Order_Id="+pkgOrderId);
+            }
+            else
+                System.out.println(">>>>Error: Package doesn't exist");   
+        } catch (Exception e) {System.out.println(e);}
     }
     
     public static void editCustomerId(int pkgOrderId, int newCustomerId) {
-        PkgOrder.sendUpdate("UPDATE Pkg_Orders SET Customer_Id="
-                +newCustomerId+" WHERE Pkg_Order_Id="+pkgOrderId);
-    }
-    
-    public static void editPricePerPkg(int pkgOrderId, double newPricePerPkg) {
-        PkgOrder.sendUpdate("UPDATE Pkg_Orders SET Price_Per_Pkg="
-                +newPricePerPkg+" WHERE Pkg_Order_Id="+pkgOrderId);
+        //Check if there is an order with the specified order id in the Orders table
+        ArrayList<JSONObject> customerResultsAL = Utilities.sendQuery("SELECT * from CustomerAccounts WHERE Customer_Id="+newCustomerId);
+        if (!customerResultsAL.isEmpty())        
+            Utilities.sendUpdate("UPDATE PkgOrders SET Customer_Id="
+                    +newCustomerId+" WHERE Pkg_Order_Id="+pkgOrderId);
+        else
+            System.out.println(">>>>Error: Customer Account doesn't exist");                    
     }
     
     public static void editQuantity(int pkgOrderId, int newQuantity) {
-        PkgOrder.sendUpdate("UPDATE Pkg_Orders SET Quantity="
+        Utilities.sendUpdate("UPDATE PkgOrders SET Quantity="
                 +newQuantity+" WHERE Pkg_Order_Id="+pkgOrderId);
     }
     
-    public static void editIdOpen(int pkgOrderId, int newIsOpen) {
-        PkgOrder.sendUpdate("UPDATE Pkg_Orders SET Is_Open="
+    public static void editIsOpen(int pkgOrderId, int newIsOpen) {
+        Utilities.sendUpdate("UPDATE PkgOrders SET Is_Open="
                 +newIsOpen+" WHERE Pkg_Order_Id="+pkgOrderId);
     }
     
+    //TODO: Use customer id instead of pkgorderid to close all pkg orders for the custoemr
+    public static void closePkgOrder (int pkgOrderId, int orderId) {
+        //Check if there is an order with the specified order id in the Orders table
+        ArrayList<JSONObject> ordersResultsAL = Utilities.sendQuery("SELECT * from Orders WHERE Order_Id="+orderId);
+        if (!ordersResultsAL.isEmpty()) {
+            Utilities.sendUpdate("UPDATE PkgOrders SET Order_Id="
+                    +orderId+" WHERE Pkg_Order_Id="+pkgOrderId);
+            Utilities.sendUpdate("UPDATE PkgOrders SET Is_Open=0 WHERE Pkg_Order_Id="+pkgOrderId);
+        }
+        else
+            System.out.println(">>>>Error: Order doesn't exist");
+    }
+    
     public static void deletePkgOrder(int deletePkgOrderId) {
-        PkgOrder.sendUpdate("DELETE FROM Pkg_Orders WHERE Pkg_Order_Id="+deletePkgOrderId);
-    }
-    
-    public static ArrayList sendQuery(String queryStr) {
-        try {
-            Connection conn=DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE","hr","hr");
-            PreparedStatement pstmt = conn.prepareStatement(queryStr);
-            ResultSet rs = pstmt.executeQuery(queryStr);
-            ResultSetMetaData rsmd = rs.getMetaData();
-            
-            ArrayList<ArrayList> resultsAL = new ArrayList();
-            while(rs.next()){
-                ArrayList subAL = new ArrayList();
-                int columnIndex = 1;
-                while(rsmd.getColumnCount()>=columnIndex) {
-                    System.out.println(rsmd.getColumnClassName(columnIndex));
-                    switch (rsmd.getColumnClassName(columnIndex)) {
-                        case ("java.math.BigDecimal"): 
-                            subAL.add(rs.getDouble(columnIndex));
-                            break;
-                        case ("java.lang.String"): 
-                            subAL.add(rs.getString(columnIndex));
-                            break;
-                        default:
-                            subAL.add(rs.getString(columnIndex));
-                            break;
-                    }
-                    columnIndex++;
-                }
-                resultsAL.add(subAL);
-            }
-            pstmt.close();
-            conn.close();
-            return resultsAL;
-        } catch (Exception ex) {return null;}
-    }
-    
-    public static void sendUpdate(String queryStr) {
-        try {
-            Connection conn=DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE","hr","hr");
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate(queryStr);
-            stmt.close();
-            conn.close();
-        } catch (Exception ex) {}
+        Utilities.sendUpdate("DELETE FROM PkgOrders WHERE Pkg_Order_Id="+deletePkgOrderId);
     }
     
     public static int getNextPkgOrderId() {
-        ArrayList<ArrayList> resultsAL = PkgOrder.sendQuery("SELECT MAX(Pkg_Order_Id) FROM Pkg_Orders");
-        if (resultsAL!=null)
-            return (int)Double.parseDouble(resultsAL.get(0).get(0).toString())+1;
+        try {
+            ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT MAX(Pkg_Order_Id) FROM PkgOrders");
+            if (!resultsAL.isEmpty())
+                return Integer.parseInt(resultsAL.get(0).get("PKG_ORDER_ID").toString())+1;
+            else
+                return 1;
+        } catch (Exception e) {System.out.println(e); return -1;}
+    }
+    
+    public static ArrayList<JSONObject> getSinglePkgOrder(int pkgOrderId) {
+        try {
+            String queryStr = ("SELECT * from PkgOrders WHERE Pkg_Order_Id="+pkgOrderId);
+            ArrayList<JSONObject> resultsAL = Utilities.sendQuery(queryStr);
+            if (!resultsAL.isEmpty())
+                return resultsAL;
+            else
+                return null;
+        } catch (Exception e) {System.out.println(e); return null;}
+    }
+    
+    public static ArrayList<JSONObject> getOpenPkgOrdersByCustomer(int Customer_Id) {
+        //Convert to ArrayList of JSON pbjects
+        return Utilities.sendQuery("SELECT O.Pkg_Order_Id, P.Name, P.Meal_Category, O.Price_Per_Pkg, O.Quantity, S.Name "
+                + "FROM PkgOrders O, Packages P, ServiceAreas S "
+                + "WHERE P.Package_Id=O.Package_Id AND O.Customer_Id="+Customer_Id+" AND S.PackageId=P.PackageId AND O.Is_Open=1");
+    }
+    
+    public static String getStringFromJSON(ArrayList<JSONObject> resultsAL) {
+        if (!resultsAL.isEmpty()) {
+            String output="";
+            try {
+                int rowCount = resultsAL.size();
+                String[] columnNames = new String[]{"PKG_ORDER_ID","ORDER_ID","PACKAGE_ID","CUSTOMER_ID","PRICE_PER_PKG","QUANTITY","IS_OPEN"};
+                int columnCount = columnNames.length;
+                for (int i=0; i<rowCount; i++) {
+                    for (int j=0; j<columnCount; j++) {
+                        if (resultsAL.get(i).has(columnNames[j]))
+                            output += columnNames[j] + ": " + resultsAL.get(i).get(columnNames[j]) + "\n";
+                        else
+                            output += columnNames[j] + ":\n";
+                    }
+                }
+                return output;
+            } catch (Exception e) {return output+e;}
+        }
         else
-            return 1;
+            return "";
     }
     
-    public static String getPkgOrder(int pkgOrderId) {
-        String queryStr = ("SELECT * from PkgOrders WHERE Pkg_Order_Id="+pkgOrderId);
-        ArrayList<ArrayList> resultsAL = PkgOrder.sendQuery(queryStr);
-        if (resultsAL!=null)
-            return (resultsAL.get(0).get(0).toString());
-        else
-            return "Package Order not found";
+    public static ArrayList<JSONObject> getAllClosedPkgOrders() {
+        return Utilities.sendQuery("SELECT * FROM PkgOrders WHERE Is_Open=0");
     }
     
-    public static String getOpenPkgOrdersByCustomer(String Customer_Id) {
-        ArrayList<ArrayList> resultsAL = PkgOrder.sendQuery("SELECT O.Pkg_Order_Id, P.Name, P.Meal_Category, O.Price_Per_Pkg, O.Quantity "
-                + "FROM Pkg_Orders O, Packages P "
-                + "WHERE P.Package_Id=O.Package_Id AND O.Customer_Id="+Customer_Id+" AND O.Is_Open=1");
-        String output=String.format("%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s%n","|Package ID","|Name",
-                "|Description","|Meal Category","|Image Source","|Price",
-                "|Is Special?","|Meal Type");
-        int aLIndex = 0;
-        if (resultsAL!=null ){
-            while (resultsAL.size()>aLIndex) {
-                int subALIndex = 0;
-                while (resultsAL.get(aLIndex).size()>subALIndex) {
-                    output += String.format("%-20s","|"+resultsAL.get(aLIndex).get(subALIndex));
-                    subALIndex++;
-                }
-                aLIndex++;
-                output += "\n";
+    public static ArrayList<JSONObject> getTotalPrice(int customer_id) {
+        return Utilities.sendQuery("SELECT Price_Per_Pkg*Quantity AS PRODUCT FROM PkgOrders WHERE Is_Open=0 AND Customer_Id="+customer_id);
+    }
+    
+    public static double getFinalPrice(int customer_id){
+        try {
+            ArrayList<JSONObject> resultsAL = getTotalPrice(customer_id);
+            double finalPrice=0.0;
+            int rowCount = resultsAL.size();
+            if (!resultsAL.isEmpty()){
+                for (int i=0; i<rowCount; i++)
+                    finalPrice+=Double.parseDouble(resultsAL.get(i).get("PRODUCT").toString());
             }
-        }
-        return output;
-    }
-    
-    public static String getAllClosedPkgOrders() {
-        ArrayList<ArrayList> resultsAL = PkgOrder.sendQuery("SELECT * "
-                + "FROM Pkg_Orders "
-                + "WHERE Is_Open=0");
-        String output=String.format("%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s%n","|Package ID","|Name",
-                "|Description","|Meal Category","|Image Source","|Price",
-                "|Is Special?","|Meal Type");
-        int aLIndex = 0;
-        if (resultsAL!=null ){
-            while (resultsAL.size()>aLIndex) {
-                int subALIndex = 0;
-                while (resultsAL.get(aLIndex).size()>subALIndex) {
-                    output += String.format("%-20s","|"+resultsAL.get(aLIndex).get(subALIndex));
-                    subALIndex++;
-                }
-                aLIndex++;
-                output += "\n";
-            }
-        }
-        return output;
-    }
-    
-    
-    public static String getArrayList(ArrayList<ArrayList> resultsAL){
-        String output = "";
-        int aLCount=0;
-        if (resultsAL!=null) {
-            while (resultsAL.size()>aLCount) {
-                int subALCount=0;
-                while (resultsAL.get(aLCount).size()>subALCount) {
-                    output += resultsAL.get(aLCount).get(subALCount).toString() + " | ";
-                    subALCount++;
-                }
-                output += "\n";
-                aLCount++;
-            }
-        }
-        return output;
+            return finalPrice;
+        } catch (Exception e) {return 0.0;}
     }
 }
