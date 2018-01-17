@@ -3,8 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MummysRestaurant.UI;
-
 //TODO IMPORT ALL NECESSARY PACKAGES
 import java.util.Scanner;
 import MummysRestaurant.UI.ConfirmationUI;
