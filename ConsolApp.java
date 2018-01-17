@@ -13,7 +13,7 @@ public class ConsolApp {
         {   
             int caseInput = 0;
             System.out.println("Welcome to mummys restaurant");
-            System.out.println("Enter 1 to view the menu");
+            //System.out.println("Enter 1 to view the menu");
             System.out.println("Enter 2 for employee login");
             System.out.println("Enter 3 for customer login");
             System.out.println("Enter 4 to leave the website");
