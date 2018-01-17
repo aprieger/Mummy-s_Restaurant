@@ -163,13 +163,12 @@ public class ConfirmationUI {
         
         
         //getting the final price
-        PkgOrder openPackageOrders = new PkgOrder();
         double finalPrice; 
-        finalPrice = openPackageOrders.getFinalPrice(customerId);
+        finalPrice = PkgOrder.getFinalPrice(customerId);
         
         //retrieves all the open pckorder rows 
         ArrayList<JSONObject> listOfJsonObject = new ArrayList();
-        listOfJsonObject = openPackageOrders.getOpenPkgOrdersByCustomer(customerId);
+        listOfJsonObject = PkgOrder.getOpenPkgOrdersByCustomer(customerId);
         
         
         try {
@@ -210,7 +209,7 @@ public class ConfirmationUI {
                     
                     //will scan in for the user to type in
                     Scanner sc = new Scanner(System.in);
-                    System.out.println("Please enter delivery date(EX: DD-MMM-YY -> 12-FEB-18):\n");
+                    System.out.println("Please enter delivery date(EX: DD-MMM-YYYY -> 12-FEB-2018):\n");
                     deliveryDate = sc.nextLine();
                     System.out.println("Please enter street address:\n");
                     streetAddress = sc.nextLine();
@@ -239,8 +238,7 @@ public class ConfirmationUI {
                     //sets up to retrieve pkgorder ids
                     ArrayList<Integer> listOfPckOrderId = new ArrayList();
                     ArrayList<JSONObject> listOfPckOrderObject = new ArrayList();
-                    PkgOrder pkgOrderDataLayer = new PkgOrder();
-                    listOfPckOrderObject = pkgOrderDataLayer.getOpenPkgOrdersByCustomer(customerId);
+                    listOfPckOrderObject = PkgOrder.getOpenPkgOrdersByCustomer(customerId);
 
                     //iterate through a list of objects to get the id
                     for (JSONObject entry : listOfPckOrderObject) {
@@ -252,7 +250,7 @@ public class ConfirmationUI {
 
                     //closes all open pkgorders
                     for (Integer entry : listOfPckOrderId) {
-                        pkgOrderDataLayer.closePkgOrder(entry, orderId);
+                        PkgOrder.closePkgOrder(entry, orderId);
                     }
 
                     //calls receipt UI and passes in orderId
@@ -270,8 +268,7 @@ public class ConfirmationUI {
                     //sets up to retrieve pkgorder ids
                     ArrayList<Integer> listOfPckOrderId = new ArrayList();
                     ArrayList<JSONObject> listOfPckOrderObject = new ArrayList();
-                    PkgOrder pkgOrderDataLayer = new PkgOrder();
-                    listOfPckOrderObject = pkgOrderDataLayer.getOpenPkgOrdersByCustomer(customerId);
+                    listOfPckOrderObject = PkgOrder.getOpenPkgOrdersByCustomer(customerId);
                     
                     //iterate through a list of objects to get the id
                     for (JSONObject entry : listOfPckOrderObject) {
@@ -280,7 +277,7 @@ public class ConfirmationUI {
                     
                     //deletes all open pkgorders
                     for (Integer entry : listOfPckOrderId) {
-                        pkgOrderDataLayer.deletePkgOrder(entry);
+                        PkgOrder.deletePkgOrder(entry);
                     }
                     
                 } catch (JSONException je) {

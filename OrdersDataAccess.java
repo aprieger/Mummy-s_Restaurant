@@ -148,9 +148,9 @@ public class OrdersDataAccess {
         try {
             //query to be used to retrieve all rows from Orders
             String sqlQuery = "select o.* " + 
-                    "from orders o, customer_accounts ca " + 
+                    "from orders o, customeraccounts ca " + 
                     "where (o.customer_id = ca.customer_id) " + 
-                    "and (ca.firs_name = " + firstName +")";
+                    "and (ca.first_name = '" + firstName +"')";
             //established connectioned to oracle account through a driver
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
             //established a statement connection
@@ -187,9 +187,9 @@ public class OrdersDataAccess {
         try {
             //query to be used to retrieve all rows from Orders
             String sqlQuery = "select o.* " + 
-                    "from orders o, customer_accounts ca " + 
+                    "from orders o, customeraccounts ca " + 
                     "where (o.customer_id = ca.customer_id) " + 
-                    "and (ca.last_name = " + lastName +")";
+                    "and (ca.last_name = '" + lastName +"')";
             //established connectioned to oracle account through a driver
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
             //established a statement connection
@@ -226,10 +226,10 @@ public class OrdersDataAccess {
         try {
             //query to be used to retrieve all rows from Orders
             String sqlQuery = "select o.* " + 
-                    "from orders o, customer_accounts ca " + 
+                    "from orders o, customeraccounts ca " + 
                     "where (o.customer_id = ca.customer_id) " + 
-                    "and (ca.first_name = " + firstName +") " +
-                    "and (ca.last_name = " + lastName +")";
+                    "and (ca.first_name = '" + firstName +"') " +
+                    "and (ca.last_name = '" + lastName +"')";
             //established connectioned to oracle account through a driver
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
             //established a statement connection
@@ -281,17 +281,17 @@ public class OrdersDataAccess {
     } 
     
     //TODO: need to finish this method, actual parameter type missing
-    public void insertNewOrdersRow(OrdersModelClass orderObject) throws SQLException{
+    public static void insertNewOrdersRow(OrdersModelClass orderObject) throws SQLException{
         
-        String sqlQuery = "select * from orders";
          
         try {
             //established connectioned to oracle account through a driver
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
             //established a statement connection
-            Statement statement = conn.createStatement();
+            Statement statement = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+                    ResultSet.CONCUR_UPDATABLE);
             //executes the SQL query and returns a ResultSet object
-            ResultSet queryResults = statement.executeQuery(sqlQuery);
+            ResultSet queryResults = statement.executeQuery("select * from orders");
             
             //TODO: assign actual values from CUSTOMER_ID down
             queryResults.moveToInsertRow();
@@ -308,6 +308,7 @@ public class OrdersDataAccess {
             queryResults.updateString("ORDER_DATE", "select sysdate from tab");
             queryResults.updateInt("ORDER_STATUS", orderObject.getOrderStatus());
             queryResults.insertRow();
+            queryResults.moveToCurrentRow();
             
         } catch (SQLException se){
             System.out.println(se);
@@ -343,12 +344,27 @@ public class OrdersDataAccess {
     }
     
     public static void main(String[] args) throws JSONException, SQLException{
+        
+        OrdersModelClass ordersRowObject = new OrdersModelClass();
+        ordersRowObject.setOrderID(7);
+        ordersRowObject.setCustomerID(7);
+        ordersRowObject.setCreditID(7);
+        ordersRowObject.setPaymentType(1);
+        ordersRowObject.setTotalPrice(25.90);
+        ordersRowObject.setStreet("123 Lane");
+        ordersRowObject.setCity("Chicago");
+        ordersRowObject.setAreaCode(60606);
+        ordersRowObject.setPhoneNumber("7732023456");
+        ordersRowObject.setDeliveryDate("14-FEB-2018");
+        ordersRowObject.setOrderDate("14-FEB-2018");
+        ordersRowObject.setOrderStatus(1);
+        
         try {
-            ArrayList<JSONObject> testArrayList = OrdersDataAccess.getAllOrdersForToday("12-JAN-2018");
-            System.out.println(testArrayList);
-        } catch(JSONException je) {
+             OrdersDataAccess.insertNewOrdersRow(ordersRowObject);
+            
+        } /*catch(JSONException je) {
             System.out.println(je);
-        } catch(SQLException se) {
+        }*/ catch(SQLException se) {
             System.out.println(se);
         }
     }
