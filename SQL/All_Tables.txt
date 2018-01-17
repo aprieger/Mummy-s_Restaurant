@@ -72,7 +72,7 @@ is_active integer
 ================================================================================
 CREATE TABLE PkgOrders(
 Pkg_Order_Id INT NOT NULL PRIMARY KEY,
-Order_Id INT REFERENCES Orders(Order_Id),
+Order_Id INT,
 Package_Id INT REFERENCES Packages(Package_Id),
 Customer_Id INT REFERENCES CustomerAccounts(Customer_Id),
 Price_Per_Pkg FLOAT(126),
