@@ -283,33 +283,26 @@ public class OrdersDataAccess {
     //TODO: need to finish this method, actual parameter type missing
     public static void insertNewOrdersRow(OrdersModelClass orderObject) throws SQLException{
         
+        String insertQuery = "insert into orders (ORDER_ID, CUSTOMER_ID, CREDIT_ID, PAYMENT_TYPE,"
+                + "TOTAL_PRICE, STREET, CITY, AREA_CODE, PHONE_NUMBER, DELIVERY_DATE, ORDER_DATE,"
+                + "ORDER_STATUS)" + 
+                "VALUES ("+orderObject.getOrderID()+","+orderObject.getCustomerID()
+                +","+orderObject.getCreditID()+","+orderObject.getPaymentType()
+                +","+orderObject.getTotalPrice()+",'"+orderObject.getStreet()
+                +"','"+orderObject.getCity()+"',"+orderObject.getAreaCode()
+                +",'"+orderObject.getPhoneNumber()+"','"+orderObject.getDeliveryDate()
+                +"','"+orderObject.getOrderDate()+"',"+orderObject.getOrderStatus()+")";
          
         try {
             //established connectioned to oracle account through a driver
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
             //established a statement connection
-            Statement statement = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY,
-                    ResultSet.CONCUR_UPDATABLE);
+            Statement statement = conn.createStatement();
             //executes the SQL query and returns a ResultSet object
-            ResultSet queryResults = statement.executeQuery("select * from orders");
+            statement.executeQuery(insertQuery);
             
-            //TODO: assign actual values from CUSTOMER_ID down
-            queryResults.moveToInsertRow();
-            queryResults.updateInt("ORDER_ID", orderObject.getOrderID());
-            queryResults.updateInt("CUSTOMER_ID", orderObject.getCustomerID());
-            queryResults.updateInt("CREDIT_ID", orderObject.getCreditID());
-            queryResults.updateInt("PAYMENTMENT_TYPE", orderObject.getPaymentType());
-            queryResults.updateDouble("TOTAL_PRICE", orderObject.getTotalPrice());
-            queryResults.updateString("STREET", orderObject.getStreet());
-            queryResults.updateString("CITY", orderObject.getCity());
-            queryResults.updateInt("AREA_CODE", orderObject.getAreaCode());
-            queryResults.updateString("PHONE_NUMBER", orderObject.getPhoneNumber());
-            queryResults.updateString("DELIVERY_DATE", orderObject.getDeliveryDate());
-            queryResults.updateString("ORDER_DATE", "select sysdate from tab");
-            queryResults.updateInt("ORDER_STATUS", orderObject.getOrderStatus());
-            queryResults.insertRow();
-            queryResults.moveToCurrentRow();
-            
+            statement.close();
+            conn.close();
         } catch (SQLException se){
             System.out.println(se);
         }
