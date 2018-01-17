@@ -1,6 +1,10 @@
+
+package app.UI;
 import java.util.ArrayList;
 import java.util.Scanner;
 import org.json.JSONObject;
+import app.*;
+import app.Package;
 
 public class AdminServiceAreaUI {
     public void goToAdminServiceAreaUI() {

@@ -1,14 +1,15 @@
 
 
-package teamproject;
+package app.UI;
 
 import java.sql.SQLException;
 import java.util.Scanner;
+import app.*;
 
 
 public class AdminWorkerRecordsUI {
 
-    public static void adminUI(Admin a) {
+    public static void adminUI() {
         int userInput;
         boolean loopLogin = true;
         

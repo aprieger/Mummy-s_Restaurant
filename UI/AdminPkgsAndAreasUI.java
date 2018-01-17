@@ -1,4 +1,5 @@
-
+package app.UI;
+import app.*;
 import java.util.Scanner;
 
 public class AdminPkgsAndAreasUI {

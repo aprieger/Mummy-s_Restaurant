@@ -1,3 +1,6 @@
+package app.UI;
+import app.*;
+import app.Package;
 import java.util.Scanner;
 
 public class CustomerMenuUI {
@@ -11,8 +14,8 @@ public class CustomerMenuUI {
             userInput = read.nextLine().trim();
             if (userInput.toLowerCase().equals("checkout")) {
                 System.out.println(">>>>To checkout");
-                //PackageOrderUI toPackageOrder= new PackageOrderUI();
-                //toPackageOrder.mainViewofPackageOrder(customerId);
+                PackageOrderUI toPackageOrder= new PackageOrderUI();
+                toPackageOrder.mainViewOfPackageOrder(customerId);
             }
             else if (userInput.matches("[-+]?\\d*\\.?\\d+")) {
                 //Goes to Package Information UI

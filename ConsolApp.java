@@ -1,4 +1,7 @@
 package app;
+import app.UI.LogInUI;
+import app.UI.CustomerMenuUI;
+import app.UI.CustomerUI;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,9 +21,7 @@ public class ConsolApp {
 
             switch (caseInput)
             {
-                case 1:
-                    MenuUI.MenuUI();
-                    continue;
+                
                 case 2:
                     LogInUI.employeeLoginUI();
                     continue;

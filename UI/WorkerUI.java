@@ -6,8 +6,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package teamproject;
-
+package app.UI;
+import app.*;
 import java.sql.SQLException;
 import java.util.Scanner;
 

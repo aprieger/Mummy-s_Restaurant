@@ -1,3 +1,6 @@
+package app.UI;
+import app.*;
+import app.Package;
 import java.util.Scanner;
 
 public class CustomerPackageUI {

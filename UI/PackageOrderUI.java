@@ -1,3 +1,5 @@
+package app.UI;
+import app.*;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,8 +7,7 @@
  */
 //TODO IMPORT ALL NECESSARY PACKAGES
 import java.util.Scanner;
-import MummysRestaurant.UI.ConfirmationUI;
-import MummysRestaurant.UI.CreditCardUI;
+
 import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;

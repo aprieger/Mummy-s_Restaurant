@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MummysRestaurant;
+package app;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -52,7 +52,7 @@ public class ReceiptClass {
             int paymentType = ordersObject.getInt("PAYMENT_TYPE");
             if (paymentType != 0) {
                 CreditCards creditCardsAccess = new CreditCards();
-                String creditCardNumber = creditCardsAccess.getCreditCardByCreditID(ordersObject.get("CREDIT_ID"));
+                String creditCardNumber = creditCardsAccess.getCreditCardByCreditID(ordersObject.getInt("CREDIT_ID"));
                 outPut += "Credit credit ending in: " + creditCardNumber.substring(13);
             } else { 
                 outPut += "Will pay in cash upon delivery";

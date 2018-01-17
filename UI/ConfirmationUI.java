@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MummysRestaurant.UI;
+package app.UI;
+import app.*;
 
 //imports will change when proper directories are established
-import MummysRestaurant.OrdersDataAccess;
-import MummysRestaurant.OrdersModelClass;
-import MummysRestaurant.PkgOrder;
-import MummysRestaurant.CreditCards;
+import app.OrdersDataAccess;
+import app.OrdersModelClass;
+import app.PkgOrder;
+import app.CreditCards;
+import app.UI.CustomerMenuUI;
+import app.UI.ReceiptUI;
 import java.security.Timestamp;
 import java.sql.SQLException;
 import java.text.DateFormat;

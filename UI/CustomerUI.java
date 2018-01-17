@@ -1,3 +1,6 @@
+package app.UI;
+import app.*;
+import app.Package;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -113,7 +116,7 @@ public class CustomerUI {
                     cmui.goToMenuUI(key);
                 case 2:
                     PackageOrderUI oui = new PackageOrderUI();
-                    oui.mainViewofPackageOrder(key);
+                    oui.mainViewOfPackageOrder(key);
                 case 3:
                     CreditCardUI cui = new CreditCardUI();
                     cui.CustomerCreditView(key);
