@@ -1,10 +1,10 @@
 
 
-package app.UI;
+package app;
 
 import java.sql.SQLException;
 import java.util.Scanner;
-import app.*;
+import app.ui.*;
 
 
 public class AdminWorkerRecordsUI {
@@ -29,16 +29,16 @@ public class AdminWorkerRecordsUI {
             try {
                 switch(userInput){
                     case 1:
-                        a.enterNewWorker();
+                        Admin.enterNewWorker();
                         break;       
                     case 2: 
-                        a.deleteWorker();
+                        Admin.deleteWorker();
                         break;
                     case 3:
-                        a.setWorkerStatus();
+                        Admin.setWorkerStatus();
                         break;
                     case 4:
-                        a.searchForWorker();
+                        Admin.searchForWorker();
                         break;
                     case 5:
                         loopLogin = false;
