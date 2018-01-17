@@ -107,7 +107,6 @@ public class OrdersDataAccess {
         return null;
     }
     
-    
     public static ArrayList<JSONObject> getCustomerOrdersOrdersID(int ordersID) throws SQLException, JSONException{
         try {
             //query to be used to retrieve all rows from Orders
@@ -336,29 +335,4 @@ public class OrdersDataAccess {
         return 0;
     }
     
-    public static void main(String[] args) throws JSONException, SQLException{
-        
-        OrdersModelClass ordersRowObject = new OrdersModelClass();
-        ordersRowObject.setOrderID(7);
-        ordersRowObject.setCustomerID(7);
-        ordersRowObject.setCreditID(7);
-        ordersRowObject.setPaymentType(1);
-        ordersRowObject.setTotalPrice(25.90);
-        ordersRowObject.setStreet("123 Lane");
-        ordersRowObject.setCity("Chicago");
-        ordersRowObject.setAreaCode(60606);
-        ordersRowObject.setPhoneNumber("7732023456");
-        ordersRowObject.setDeliveryDate("14-FEB-2018");
-        ordersRowObject.setOrderDate("14-FEB-2018");
-        ordersRowObject.setOrderStatus(1);
-        
-        try {
-             OrdersDataAccess.insertNewOrdersRow(ordersRowObject);
-            
-        } /*catch(JSONException je) {
-            System.out.println(je);
-        }*/ catch(SQLException se) {
-            System.out.println(se);
-        }
-    }
 }
