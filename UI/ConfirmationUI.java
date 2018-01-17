@@ -126,7 +126,7 @@ public class ConfirmationUI {
 
                     //calls receipt UI and passes in orderId
                     ReceiptUI finalScreen = new ReceiptUI();
-                    finalScreen.receiptView(orderId);
+                    finalScreen.receiptView(orderId, customerId);
                     ReceiptClass.writeReceiptToFile(orderId, customerId);
                     
                 } catch (SQLException se) {
@@ -258,7 +258,7 @@ public class ConfirmationUI {
 
                     //calls receipt UI and passes in orderId
                     ReceiptUI finalScreen = new ReceiptUI();
-                    finalScreen.receiptView(orderId);
+                    finalScreen.receiptView(orderId, customerId);
                     ReceiptClass.writeReceiptToFile(orderId, customerId);
                     
                 } catch (SQLException se) {
