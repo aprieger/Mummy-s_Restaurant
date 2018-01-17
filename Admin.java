@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package app;
+package teamproject;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,7 +22,7 @@ public class Admin extends Worker {
         super(i);
     }
     
-    public void enterNewWorker()throws SQLException{  
+    public static void enterNewWorker()throws SQLException{  
         Worker newWorker = new Worker();
         boolean loop;
         String message, tempPhoneNumber, tempUsername;
@@ -73,7 +73,7 @@ public class Admin extends Worker {
         }
     }
     
-    public void deleteWorker() throws SQLException{  
+    public static void deleteWorker() throws SQLException{  
         int result;
         String message;
         Scanner scan = new Scanner(System.in);
@@ -94,7 +94,7 @@ public class Admin extends Worker {
                     System.out.println("No record found."); 
                 while(rs.next()){
                     message = ("Delete "+ rs.getString("first_name")+" "+ rs.getString("last_name") +"(y or n)?");
-                    result = new Admin().yesNoInput(message);
+                    result = yesNoInput(message);
                 
                     if(result == 1){
                         statement.executeUpdate("delete from workers where employee_id = '"+ rs.getString("employee_id") +"'");
@@ -108,7 +108,7 @@ public class Admin extends Worker {
         }  
     }
     
-    public void setWorkerStatus() throws SQLException{  // completed and tested
+    public static void setWorkerStatus() throws SQLException{  // completed and tested
         int result, newResult;
         String message;
         Scanner scan = new Scanner(System.in);
@@ -128,7 +128,7 @@ public class Admin extends Worker {
                     System.out.println("Current status for "+ rs.getString("first_name")+ " "
                             +rs.getString("last_name")+ " is "+ ((result == 1) ? "Active": "Inactive" ));
                     message = "Change user status y or n?";
-                    result = new Admin().yesNoInput(message);
+                    result = yesNoInput(message);
                     
                     if (result == 1) {
                        newResult = ((Integer.parseInt(rs.getString("is_Active")))== 1) ? 0: 1;
@@ -140,7 +140,7 @@ public class Admin extends Worker {
         }
     }
         
-    public void searchForWorker() throws SQLException {  
+    public static void searchForWorker() throws SQLException {  
         Scanner scan = new Scanner(System.in);
     
         System.out.print("Enter the last name of the employee: ");
@@ -160,7 +160,7 @@ public class Admin extends Worker {
         }
     }
     
-    public int yesNoInput(String str) {  
+    public static int yesNoInput(String str) {  
         String userYN;
         Scanner s = new Scanner(System.in);
         
@@ -177,7 +177,7 @@ public class Admin extends Worker {
         } 
     }
     
-    public boolean verifyPhoneNumber(String testPhoneNumber) {  
+    public static boolean verifyPhoneNumber(String testPhoneNumber) {  
         String regexStr = "^(1\\-)?[0-9]{3}\\-?[0-9]{3}\\-?[0-9]{4}$";
         if(testPhoneNumber.matches(regexStr)) {
             return false;
@@ -189,7 +189,7 @@ public class Admin extends Worker {
         }
     }
     
-    public boolean verifyUserId(String testUserID) throws SQLException{
+    public static boolean verifyUserId(String testUserID) throws SQLException{
         try (Connection con = DriverManager.getConnection(
                     "jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
                 Statement statement = con.createStatement();){
