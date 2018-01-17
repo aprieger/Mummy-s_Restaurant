@@ -123,12 +123,15 @@ public class CreditCards {
     }
     
     public ArrayList getCreditCardsByCustomer_idAsArrayList(int Customer_ID){
-        ArrayList listOfCards = new ArrayList();
+        ArrayList <CreditCard> listOfCards = new ArrayList <>();
+        
         
         try{
+            
             Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
             Statement stmt = con.createStatement();
-            ResultSet rs=stmt.executeQuery("SELECT * FROM CREDIT_CARDS WHERE CUSTOMER_ID =" + Customer_ID);
+            ResultSet rs=stmt.executeQuery("SELECT * FROM CREDIT_CARDS WHERE CUSTOMER_ID = " + Customer_ID);
+            
             while (rs.next())
             {
                 CreditCard card = new CreditCard();
@@ -142,7 +145,7 @@ public class CreditCards {
                 card.setSTREET(rs.getString("STREET")); 
                 card.setCITY(rs.getString("CITY")); 
                 card.setAREA_CODE(rs.getInt("AREA_CODE")); 
-                listOfCards.add(card);
+                listOfCards.add(card);  
             }
             con.close();
             return listOfCards;
@@ -183,6 +186,39 @@ public class CreditCards {
             return null;
         } 
     }
+     
+     public String getCreditCardByCreditID(int Credit_ID)
+     {
+        
+        CreditCard card = new CreditCard();
+        try{
+            Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
+            Statement stmt = con.createStatement();
+            ResultSet rs=stmt.executeQuery("SELECT * FROM CREDIT_CARDS WHERE Credit_ID =" + Credit_ID);
+            while (rs.next())
+            {
+                
+                card.setCREDIT_ID(rs.getInt("CREDIT_ID"));
+                card.setCUSTOMER_ID(rs.getInt("CUSTOMER_ID")); 
+                card.setCARD_NUMBER(rs.getInt("CARD_NUMBER"));
+                card.setBRAND(rs.getString("BRAND")); 
+                card.setSECURITY_NUMBER(rs.getString("SECURITY_NUMBER"));
+                card.setEXPERATION_DATE(rs.getString("EXPERATION_DATE"));
+                card.setNAME_ON_CARD(rs.getString("NAME_ON_CARD")); 
+                card.setSTREET(rs.getString("STREET")); 
+                card.setCITY(rs.getString("CITY")); 
+                card.setAREA_CODE(rs.getInt("AREA_CODE")); 
+                
+            }
+            con.close();
+            return String.valueOf(card.getCARD_NUMBER());
+        }
+        catch(Exception e){
+            System.out.println(e);
+            return null;
+        } 
+         
+     }
     
     public void deleteEntryByCredit_ID(int CREDIT_ID){
         try{
@@ -270,12 +306,6 @@ public class CreditCards {
         } 
     }
     
-    
-    
-    
-    
-    
-
     
 }
 
