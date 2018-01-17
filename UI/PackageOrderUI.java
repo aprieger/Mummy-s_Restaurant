@@ -27,8 +27,8 @@ public class PackageOrderUI {
         
         try {
             for (JSONObject entry: listOfJsonObject) {
-                System.out.println("Package Name: " + entry.getString("NAME") + " " + 
-                        "Quantity: " + entry.getInt("QUANTITY") + " " + "Price: " + entry.getInt("PRICE_PER_PKG"));
+                System.out.println("Package Name: " + entry.getString("NAME") + "\n" + 
+                        "Quantity: " + entry.getInt("QUANTITY") + "\n" + "Price per package: " + entry.getInt("PRICE_PER_PKG"));
             }
         } catch (JSONException je) {
             System.out.println(je);
