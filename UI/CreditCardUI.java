@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class CreditCardUI {
     
-    public static ArrayList<CreditCard> CustomerCreditView(int CUSTOMER_ID)
+    public static void CustomerCreditView(int CUSTOMER_ID)
     {
         while(true)
         {
@@ -16,6 +16,7 @@ public class CreditCardUI {
             System.out.println("Enter 2 to choose an exisiting cards");
             CreditCards cc = new CreditCards();
             ArrayList<CreditCard> card = new ArrayList<>();
+            ConfirmationUI confirmation = new ConfirmationUI();
             Scanner scanner = new Scanner(System.in);
             int userInput = scanner.nextInt();
 
@@ -35,7 +36,9 @@ public class CreditCardUI {
 
                     cc.addCard(CREDIT_ID,CUSTOMER_ID, CARD_NUMBER,BRAND,SECURITY_NUMBER,EXPERATION_DATE,NAME_ON_CARD,STREET,CITY,AREA_CODE);
                     card = cc.getCreditCardsByCredit_idAsArrayList(CREDIT_ID);
-                    return card;
+                    confirmation.mainConfirmationView(card.get(0).getCUSTOMER_ID(),card.get(0).getCREDIT_ID());
+                    
+                    
                 case 2:
                     card = cc.getCreditCardsByCustomer_idAsArrayList(CUSTOMER_ID);
                     for (CreditCard cards : card )
@@ -45,7 +48,8 @@ public class CreditCardUI {
                     System.out.println("Please enter the Credit_ID of the card you would like to use");
                     userInput = scanner.nextInt();
                     card = cc.getCreditCardsByCredit_idAsArrayList(userInput);
-                    return card;
+                    confirmation.mainConfirmationView(card.get(0).getCUSTOMER_ID(),card.get(0).getCREDIT_ID());
+                    
                 default:
                     break;
 
