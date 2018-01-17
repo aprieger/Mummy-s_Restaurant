@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package App;
+package app;
 import app.UI.*;
 
 import java.sql.Connection;
@@ -123,6 +123,8 @@ public class Admin extends Worker {
             
             try (ResultSet rs = statement.executeQuery("select employee_id, first_name,"
                     +"last_name, is_Active from workers where employee_id = '"+ employeeId  +"'")){
+                if (!rs.isBeforeFirst() )     
+                    System.out.println("No record found."); 
                 while(rs.next()){
                     result = Integer.parseInt(rs.getString("is_Active"));
                     
