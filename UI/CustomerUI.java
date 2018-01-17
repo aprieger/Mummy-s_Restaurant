@@ -101,7 +101,8 @@ public class CustomerUI {
             System.out.println("is logged in");*/
             System.out.println("Enter 1 to go to menu, 2 to go to orders, or 3 to go to payment methods");
             int op = sc.nextInt();
-            rs = stmt.executeQuery("SELECT Customer_id AS key FROM CustomerAccounts WHERE ");
+            String statement = "SELECT Customer_id AS key FROM CustomerAccounts WHERE Username = '" + user + "'";
+            rs = stmt.executeQuery(statement);
             rs.next();
             int key = rs.getInt("key");
             rs.close();

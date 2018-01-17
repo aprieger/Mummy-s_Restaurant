@@ -111,6 +111,43 @@ public class OrdersDataAccess {
         return null;
     }
     
+    
+    public static ArrayList<JSONObject> getCustomerOrdersOrdersID(int ordersID) throws SQLException, JSONException{
+        try {
+            //query to be used to retrieve all rows from Orders
+            String sqlQuery = "select * from orders where order_id = " + ordersID;
+            //established connectioned to oracle account through a driver
+            Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
+            //established a statement connection
+            Statement statement = conn.createStatement();
+            //executes the SQL query and returns a ResultSet object
+            ResultSet queryResults = statement.executeQuery(sqlQuery);
+            
+            //Converts Resultset to an ArrayList of Json objects
+            ArrayList<JSONObject> listOfJsonObjects = new ArrayList();
+            while(queryResults.next()) {
+                int totalColumns = queryResults.getMetaData().getColumnCount();
+                JSONObject columnValuePair = new JSONObject();
+                //At every row, the column and its value are mapped...
+                for (int i = 0; i < totalColumns; i++) {
+                    //..and then put into the JSONObject
+                    columnValuePair.put(queryResults.getMetaData().getColumnName(i+1),
+                            queryResults.getObject(i+1));
+                }
+                //Which is added to this ArrayList to be returned
+                listOfJsonObjects.add(columnValuePair);
+            }
+            
+            statement.close();
+            conn.close();
+            
+            return (listOfJsonObjects);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
     public static ArrayList<JSONObject> getCustomerOrdersFirstName(String firstName) throws SQLException, JSONException{
         try {
             //query to be used to retrieve all rows from Orders
@@ -271,8 +308,8 @@ public class OrdersDataAccess {
             queryResults.updateString("CITY", orderObject.getCity());
             queryResults.updateInt("AREA_CODE", orderObject.getAreaCode());
             queryResults.updateString("PHONE_NUMBER", orderObject.getPhoneNumber());
-            queryResults.updateTimestamp("DELIVERY_DATE", orderObject.getDeliveryDate());
-            queryResults.updateTimestamp("ORDER_DATE", orderObject.getOrderDate());
+            queryResults.updateString("DELIVERY_DATE", orderObject.getDeliveryDate());
+            queryResults.updateString("ORDER_DATE", "select sysdate from tab");
             queryResults.updateInt("ORDER_STATUS", orderObject.getOrderStatus());
             queryResults.insertRow();
             
