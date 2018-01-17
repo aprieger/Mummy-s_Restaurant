@@ -1,10 +1,10 @@
 
 
-package app;
+package app.UI;
 
 import java.sql.SQLException;
 import java.util.Scanner;
-import app.ui.*;
+import App.*;
 
 
 public class AdminWorkerRecordsUI {

@@ -81,7 +81,7 @@ public Worker(int a){
              System.out.println("Todays Orders ********************");
             for (int i = 0; i < todaysOrders.size(); i++) {
                  //compare date in JSOM Object and get order_id number
-                 try(orderNumber = (Integer) todaysOrders.get(i).get("ORDER_ID")){
+                 try(orderNumber = todaysOrders.get(i).getInt("ORDER_ID")){
                  
                 try(ResultSet rs = statement.executeQuery("select o.order_id, c.last_name, "
                     +"p.name, p.quanity from orders o join customers on c.customer_id = o.customer_id "
