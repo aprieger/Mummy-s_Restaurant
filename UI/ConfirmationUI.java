@@ -13,6 +13,7 @@ import app.PkgOrder;
 import app.CreditCards;
 import app.UI.CustomerMenuUI;
 import app.UI.ReceiptUI;
+import java.io.IOException;
 import java.security.Timestamp;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -29,7 +30,7 @@ import org.json.JSONObject;
  */
 public class ConfirmationUI {
     
-    public void mainConfirmationView(int customerId, int creditCardId){
+    public void mainConfirmationView(int customerId, int creditCardId) throws IOException{
         
         PkgOrder openPackageOrders = new PkgOrder();
         double finalPrice;
@@ -41,7 +42,7 @@ public class ConfirmationUI {
         try {
             for (JSONObject entry: listOfJsonObject) {
                 System.out.println("Package Name: " + entry.getString("NAME") + " " + 
-                        "Quantity: " + entry.getInt("QUANTITY") + " " + "Price: " + entry.getInt("Price_Per_Pkg"));
+                        "Quantity: " + entry.getInt("QUANTITY") + " " + "Price: " + entry.getInt("PRICE_PER_PKG"));
             }
             
             CreditCards creditCardsAccess = new CreditCards();
@@ -51,7 +52,7 @@ public class ConfirmationUI {
             System.out.println(je);
         }
         System.out.println("Total Price: $" + finalPrice);
-        System.out.println("Payment:\nCredit Card ending with: " + creditCardNumber.substring(13));
+        System.out.println("Payment:\nCredit Card ending with: " + creditCardNumber.substring(creditCardNumber.length()-4));
         System.out.println("Please choose and enter an option:\n"
                 + "[1]: To confirm order\n"
                 + "[2]: To cancel and start over");
@@ -126,11 +127,14 @@ public class ConfirmationUI {
                     //calls receipt UI and passes in orderId
                     ReceiptUI finalScreen = new ReceiptUI();
                     finalScreen.receiptView(orderId);
+                    ReceiptClass.writeReceiptToFile(orderId, customerId);
                     
                 } catch (SQLException se) {
                     System.out.println(se);
                 } catch (JSONException je) {
                     System.out.println(je);
+                } catch (IOException ie) {
+                    System.out.println(ie);
                 }
             case 2: 
                 try {
@@ -159,7 +163,7 @@ public class ConfirmationUI {
         
     }
     
-    public static void mainConfirmationView(int customerId){
+    public static void mainConfirmationView(int customerId) throws IOException{
         
         
         //getting the final price
@@ -174,7 +178,7 @@ public class ConfirmationUI {
         try {
             for (JSONObject entry: listOfJsonObject) {
                 System.out.println("Package Name: " + entry.getString("NAME") + " " + 
-                        "Quantity: " + entry.getInt("QUANTITY") + " " + "Price: " + entry.getInt("Price_Per_Pkg"));
+                        "Quantity: " + entry.getInt("QUANTITY") + " " + "Price: " + entry.getInt("PRICE_PER_PKG"));
             }
             System.out.println("Total Price: $" + finalPrice);
             System.out.println("Cash Payment to be received upon delivery.");
@@ -205,7 +209,6 @@ public class ConfirmationUI {
                     String phoneNumber ="";
                     int areaCode;
                     String orderDate = "";
-                    
                     
                     //will scan in for the user to type in
                     Scanner sc = new Scanner(System.in);
@@ -246,7 +249,7 @@ public class ConfirmationUI {
                     }
 
                     //Inserts row into orders table
-                    orderDataLayer.insertNewOrdersRow(ordersRowObject);
+                    OrdersDataAccess.insertNewOrdersRow(ordersRowObject);
 
                     //closes all open pkgorders
                     for (Integer entry : listOfPckOrderId) {
@@ -256,11 +259,14 @@ public class ConfirmationUI {
                     //calls receipt UI and passes in orderId
                     ReceiptUI finalScreen = new ReceiptUI();
                     finalScreen.receiptView(orderId);
+                    ReceiptClass.writeReceiptToFile(orderId, customerId);
                     
                 } catch (SQLException se) {
                     System.out.println(se);
                 } catch (JSONException je) {
                     System.out.println(je);
+                } catch (IOException ie) {
+                    System.out.println(ie);
                 }
             case 2: 
                 
@@ -279,7 +285,6 @@ public class ConfirmationUI {
                     for (Integer entry : listOfPckOrderId) {
                         PkgOrder.deletePkgOrder(entry);
                     }
-                    
                 } catch (JSONException je) {
                     System.out.println(je);
                 }
@@ -287,19 +292,4 @@ public class ConfirmationUI {
                 menu.goToMenuUI(customerId);               
         }
     }
-    
-    /*public boolean dateWithinRange(String dateString) {
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
-                
-        try {
-            Date date = df.parse(dateString);
-            
-            Calendar currentDateAfter1Month = Calendar.getInstance();
-            currentDateAfter1Month
-            
-        } catch (Exception pe) {
-            System.out.println(pe);
-        }
-        return formattedDate;
-    }*/
 }

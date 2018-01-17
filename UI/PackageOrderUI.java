@@ -21,10 +21,9 @@ import org.json.JSONObject;
 public class PackageOrderUI {
     
     public static void mainViewOfPackageOrder(int customerId){
-        PkgOrder openPackageOrders = new PkgOrder();
         
         ArrayList<JSONObject> listOfJsonObject = new ArrayList();
-        listOfJsonObject = openPackageOrders.getOpenPkgOrdersByCustomer(customerId);
+        listOfJsonObject = PkgOrder.getOpenPkgOrdersByCustomer(customerId);
         
         try {
             for (JSONObject entry: listOfJsonObject) {
@@ -41,22 +40,18 @@ public class PackageOrderUI {
                 + "[2]: Return to the menu");
         
         Scanner scanner = new Scanner(System.in);
-        
         int userInput = scanner.nextInt();
         
         switch (userInput) {
             //cash
-            case 0: 
-                ConfirmationUI confirmation = new ConfirmationUI();
-                confirmation.mainConfirmationView(customerId);
+            case 0:
+                ConfirmationUI.mainConfirmationView(customerId);
             //credit
             case 1:
-                CreditCardUI creditCardOption = new CreditCardUI();
-                creditCardOption.CustomerCreditView(customerId);
-            //food menu
-            case 2: 
-                CustomerMenuUI menu = new CustomerMenuUI();
-                menu.goToMenuUI(customerId);
+                CreditCardUI.CustomerCreditView(customerId);
+            //menu
+            case 2:
+                CustomerMenuUI.goToMenuUI(customerId);
         }
     }
 }
