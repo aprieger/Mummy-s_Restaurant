@@ -4,9 +4,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
 
 public class Utilities {
     public static ArrayList<JSONObject> sendQuery(String queryStr) {
@@ -29,36 +27,13 @@ public class Utilities {
                 resultsAL.add(columnValuePair);
             }
             return resultsAL;
-        } catch (Exception ex) {return null;}
+        } catch (Exception ex) {System.out.println(ex);return null;}
     }
 
     public static void sendUpdate(String queryStr) {
         try (Connection conn=DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE","hr","hr");
                 Statement stmt = conn.createStatement();){
             stmt.executeUpdate(queryStr);
-        } catch (Exception ex) {}
-    }
-    
-    public static String printJSON(ArrayList<JSONObject> resultsAL) {
-        if (!resultsAL.isEmpty()) {
-            String output="";
-            try {
-                int rowCount = resultsAL.size();
-                String[] columnNames = new String[]{"EMPLOYEE_ID","FIRST_NAME","LAST_NAME", "JOB_ID", "DEPARTMENT_ID","SALARY"};
-                int columnCount = columnNames.length;
-                for (int i=0; i<rowCount; i++) {
-                    for (int j=0; j<columnCount; j++) {
-                        if (resultsAL.get(i).has(columnNames[j]))
-                            output += columnNames[j] + ": " + resultsAL.get(i).get(columnNames[j]) + "\n";
-                        else
-                            output += columnNames[j] + ":\n";
-                    }
-                    output +="\n";
-                }
-                return output;
-            } catch (Exception e) {return output+e;}
-        }
-        else
-            return "";
+        } catch (Exception ex) {System.out.println(ex);}
     }
 }

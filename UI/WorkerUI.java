@@ -8,6 +8,7 @@
  */
 package teamproject;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class WorkerUI {
@@ -19,39 +20,29 @@ public class WorkerUI {
         
         do { 
             System.out.println("Please choose and enter an option:\n"
-                + "[1]: TODO\n"
-                + "[2]: TODO\n"
-                + "[3]: TODO\n"    
-                + "[4]: TODO\n"
-                + "[5]: Back to main menu.\n"
-                + "[6]: Exit program");
-        
+                + "[1]: View today's orders\n"
+                + "[2]: Back to main menu.\n"
+                + "[3]: Exit program");
         
             Scanner scanner = new Scanner(System.in);
         
             userInput = scanner.nextInt();
            
-       
-            switch(userInput){
-                case 1:
-                    // UI we want worker to access
-                    break;       
-                case 2: 
-                    // UI we want worker to access
-                    break;
-                case 3:
-                    // UI we want worker to access
-                    break;
-                case 4:
-                    // UI we want worker to access
-                    break;
-                case 5:
-                    loopUI = false;
-                    break;
-                case 6:
-                    System.exit(0);
-                default:
-                    System.out.println("Not a vaild choice!\n");
+            try {
+                switch(userInput){
+                    case 1:
+                        Worker.viewOrders();   
+                        break;       
+                    case 2:
+                        loopUI = false;
+                        break;
+                    case 3:
+                        System.exit(0);
+                    default:
+                        System.out.println("Not a vaild choice!\n");
+                }
+            }
+            catch (SQLException e){      
             }
         } while (loopUI);
     }  

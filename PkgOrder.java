@@ -13,9 +13,9 @@ public class PkgOrder {
                 ArrayList<JSONObject> packageResultsAL = Utilities.sendQuery("SELECT Package_Id, Name, Description, Meal_Category, Image_Source, Price, Is_Special, Meal_Type from Packages WHERE Package_Id="+packageId);
                 if (!packageResultsAL.isEmpty()) {
                     //Add the new open pkg order to the PkgOrders table (Note: IsOpen=1 and OrderId=0)
-                    double pricePerPkgStr = Double.parseDouble(packageResultsAL.get(0).get("PRICE").toString());
-                    String updateStr = ("INSERT INTO PkgOrders (Pkg_Order_Id, Order_Id, Package_Id, Customer_Id, Price_Per_Pkg, Quantity, Is_Open)"
-                                + " VALUES ("+PkgOrder.getNextPkgOrderId()+","+0+","+packageId+","+customerId+","+pricePerPkgStr+","+quantity+","+1+")");
+                    double pricePerPkg = Double.parseDouble(packageResultsAL.get(0).get("PRICE").toString());
+                    String updateStr = ("INSERT INTO PkgOrders (Pkg_Order_Id, Order_Id, Package_Id, Customer_Id, Price_Per_Pkg, Quantity, Is_Open) "
+                                + "VALUES ("+PkgOrder.getNextPkgOrderId()+","+0+","+packageId+","+customerId+","+pricePerPkg+","+quantity+","+1+")");
                     Utilities.sendUpdate(updateStr);
                 }
                 else
@@ -23,7 +23,7 @@ public class PkgOrder {
             }
             else
                 System.out.println(">>>>Error: customer does not exist in table");
-        } catch (Exception e){System.out.println(e);}
+        } catch (JSONException e){System.out.println(e);}
     }
     
     public static void editOrderId(int pkgOrderId, int newOrderId) {
@@ -50,7 +50,7 @@ public class PkgOrder {
             }
             else
                 System.out.println(">>>>Error: Package doesn't exist");   
-        } catch (Exception e) {System.out.println(e);}
+        } catch (JSONException e) {System.out.println(e);}
     }
     
     public static void editCustomerId(int pkgOrderId, int newCustomerId) {
@@ -89,15 +89,15 @@ public class PkgOrder {
     public static void deletePkgOrder(int deletePkgOrderId) {
         Utilities.sendUpdate("DELETE FROM PkgOrders WHERE Pkg_Order_Id="+deletePkgOrderId);
     }
-    
+        
     public static int getNextPkgOrderId() {
         try {
-            ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT MAX(Pkg_Order_Id) FROM PkgOrders");
+            ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT MAX(Pkg_Order_Id) AS MAX FROM PkgOrders");
             if (!resultsAL.isEmpty())
-                return Integer.parseInt(resultsAL.get(0).get("PKG_ORDER_ID").toString())+1;
+                return Integer.parseInt(resultsAL.get(0).get("MAX").toString())+1;
             else
                 return 1;
-        } catch (Exception e) {System.out.println(e); return -1;}
+        } catch (JSONException e) {System.out.println(e); return -1;}
     }
     
     public static ArrayList<JSONObject> getSinglePkgOrder(int pkgOrderId) {
@@ -112,32 +112,15 @@ public class PkgOrder {
     }
     
     public static ArrayList<JSONObject> getOpenPkgOrdersByCustomer(int Customer_Id) {
-        //Convert to ArrayList of JSON pbjects
-        return Utilities.sendQuery("SELECT O.Pkg_Order_Id, P.Name, P.Meal_Category, O.Price_Per_Pkg, O.Quantity, S.Name "
+        return Utilities.sendQuery("SELECT O.Pkg_Order_Id, P.Name, P.Meal_Category, O.Price_Per_Pkg, O.Quantity, S.Name AS SERVICE_AREA "
                 + "FROM PkgOrders O, Packages P, ServiceAreas S "
-                + "WHERE P.Package_Id=O.Package_Id AND O.Customer_Id="+Customer_Id+" AND S.PackageId=P.PackageId AND O.Is_Open=1");
+                + "WHERE P.Package_Id=O.Package_Id AND O.Customer_Id="+Customer_Id+" AND S.Package_Id=P.Package_Id AND O.Is_Open=1");
     }
     
-    public static String getStringFromJSON(ArrayList<JSONObject> resultsAL) {
-        if (!resultsAL.isEmpty()) {
-            String output="";
-            try {
-                int rowCount = resultsAL.size();
-                String[] columnNames = new String[]{"PKG_ORDER_ID","ORDER_ID","PACKAGE_ID","CUSTOMER_ID","PRICE_PER_PKG","QUANTITY","IS_OPEN"};
-                int columnCount = columnNames.length;
-                for (int i=0; i<rowCount; i++) {
-                    for (int j=0; j<columnCount; j++) {
-                        if (resultsAL.get(i).has(columnNames[j]))
-                            output += columnNames[j] + ": " + resultsAL.get(i).get(columnNames[j]) + "\n";
-                        else
-                            output += columnNames[j] + ":\n";
-                    }
-                }
-                return output;
-            } catch (Exception e) {return output+e;}
-        }
-        else
-            return "";
+    public static ArrayList<JSONObject> getAllPkgOrdersByOrder(int OrderId) {
+        return Utilities.sendQuery("SELECT O.Pkg_Order_Id, P.Name, P.Meal_Category, O.Price_Per_Pkg, O.Quantity, S.Name AS SERVICE_AREA "
+                + "FROM PkgOrders O, Packages P, ServiceAreas S "
+                + "WHERE P.Package_Id=O.Package_Id AND O.Order_Id="+OrderId+" AND S.Package_Id=P.Package_Id");
     }
     
     public static ArrayList<JSONObject> getAllClosedPkgOrders() {
@@ -158,6 +141,26 @@ public class PkgOrder {
                     finalPrice+=Double.parseDouble(resultsAL.get(i).get("PRODUCT").toString());
             }
             return finalPrice;
-        } catch (Exception e) {return 0.0;}
+        } catch (JSONException e) {return 0.0;}
+    }
+    
+    public static String getStringFromJSON(ArrayList<JSONObject> resultsAL) {
+        if (!resultsAL.isEmpty()) {
+            String output="";
+            try {
+                int rowCount = resultsAL.size();
+                String[] columnNames = new String[]{"PKG_ORDER_ID","ORDER_ID","PACKAGE_ID","CUSTOMER_ID","PRICE_PER_PKG","QUANTITY","IS_OPEN"};
+                int columnCount = columnNames.length;
+                for (int i=0; i<rowCount; i++) {
+                    for (int j=0; j<columnCount; j++) {
+                        if (resultsAL.get(i).has(columnNames[j]))
+                            output += columnNames[j] + ": " + resultsAL.get(i).get(columnNames[j]) + "\n";
+                    }
+                }
+                return output;
+            } catch (JSONException e) {return output+e;}
+        }
+        else
+            return "";
     }
 }

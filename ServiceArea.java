@@ -1,11 +1,6 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.Statement;
 import java.util.ArrayList;
 import org.json.JSONObject;
+import org.json.JSONException;
 
 public class ServiceArea {
     public static void addServiceArea(String name, int areaCode, int packageId, double taxRate) {
@@ -45,17 +40,29 @@ public class ServiceArea {
                 return Integer.parseInt(resultsAL.get(0).get("AREA_ID").toString())+1;
             else
                 return 0;
-        } catch (Exception e) {return -1;}
+        } catch (JSONException e) {return -1;}
     } 
     
     public static int getNextServiceAreaId() {
         try {
-            ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT MAX(Area_Id) FROM ServiceAreas");
+            ArrayList<JSONObject> resultsAL = Utilities.sendQuery("SELECT MAX(Area_Id) MAX FROM ServiceAreas");
             if (!resultsAL.isEmpty())
-                return Integer.parseInt(resultsAL.get(0).get("AREA_ID").toString())+1;
+                return Integer.parseInt(resultsAL.get(0).get("MAX").toString())+1;
             else
                 return 1;
-        } catch (Exception e) {return -1;}
+        } catch (JSONException e) {return -1;}
+    }
+    
+    public static ArrayList<JSONObject> getSingleServiceAreaData(int inputAreaId) {
+        return Utilities.sendQuery("SELECT * FROM ServiceAreas WHERE Area_Id="+inputAreaId);
+    }
+    
+    public static ArrayList<JSONObject> getAllServiceAreaNamesByPackageID(int inputPackageId) {
+        return Utilities.sendQuery("SELECT Name AS SERVICE_AREA FROM ServiceAreas WHERE Package_Id="+inputPackageId);
+    }
+    
+    public static ArrayList<JSONObject> getAllServiceAreaData() {
+        return Utilities.sendQuery("SELECT * FROM ServiceAreas");
     }
     
     public static String getStringFromJSON(ArrayList<JSONObject> resultsAL) {
@@ -63,28 +70,18 @@ public class ServiceArea {
             String output="";
             try {
                 int rowCount = resultsAL.size();
-                String[] columnNames = new String[]{"AREA_ID","PACKAGE_ID","NAME","AREA_CODE","TAX_RATE"};
+                String[] columnNames = new String[]{"AREA_ID","PACKAGE_ID","NAME","AREA_CODE","TAX_RATE","SERVICE_AREA"};
                 int columnCount = columnNames.length;
                 for (int i=0; i<rowCount; i++) {
                     for (int j=0; j<columnCount; j++) {
                         if (resultsAL.get(i).has(columnNames[j]))
                             output += columnNames[j] + ": " + resultsAL.get(i).get(columnNames[j]) + "\n";
-                        else
-                            output += columnNames[j] + ":\n";
                     }
                 }
                 return output;
-            } catch (Exception e) {return output+e;}
+            } catch (JSONException e) {return output+e;}
         }
         else
             return "";
-    }
-    
-    public static ArrayList<JSONObject> getSingleServiceAreaData(int inputPackageId) {
-        return Utilities.sendQuery("SELECT * FROM ServiceAreas WHERE Area_Id="+inputPackageId);
-    }
-    
-    public static ArrayList<JSONObject> getAllServiceAreaData(int inputPackageId) {
-        return Utilities.sendQuery("SELECT * FROM ServiceAreas");
     }
 }
