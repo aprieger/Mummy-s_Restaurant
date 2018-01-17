@@ -5,7 +5,9 @@
  */
 package app.UI;
 import app.*;
+import java.sql.SQLException;
 import java.util.Scanner;
+import org.json.JSONException;
 
 /**
  *
@@ -21,9 +23,9 @@ public class AdminMainUI {
         do { 
             System.out.println("Please choose and enter an option:\n"
                 + "[1]: View worker records."
-                + "[2]: View package records."
-                + "[3]: View orders records"    
-                + "[4]: View customers records"
+                + "[2]: View package records."  
+                + "[3]: View customers records"
+                + "[4]: View todays orders"  
                 + "[5]: Back to main menu.\n"
                 + "[6]: Exit program");
         
@@ -32,7 +34,7 @@ public class AdminMainUI {
         
             userInput = scanner.nextInt();
            
-       
+    try {   
             switch(userInput){
                 case 1:
                     AdminWorkerRecordsUI.adminUI();
@@ -41,10 +43,10 @@ public class AdminMainUI {
                     AdminPkgsAndAreasUI.goToAdminPackagesUI();
                     break;
                 case 3:
-                    // UI we want worker to access
+                    new EditCustomersUI().goToEditCustomersUI();
                     break;
                 case 4:
-                    // UI we want worker to access
+                    Worker.viewOrders();
                     break;
                 case 5:
                     loopUI = false;
@@ -54,6 +56,10 @@ public class AdminMainUI {
                 default:
                     System.out.println("Not a vaild choice!\n");
             }
+    }
+    catch (SQLException | JSONException e){
+        
+    }
         } while (loopUI);
     }  
 }

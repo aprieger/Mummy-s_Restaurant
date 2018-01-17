@@ -10,6 +10,7 @@ package app.UI;
 import app.*;
 import java.sql.SQLException;
 import java.util.Scanner;
+import org.json.JSONException;
 
 public class WorkerUI {
      
@@ -42,7 +43,7 @@ public class WorkerUI {
                         System.out.println("Not a vaild choice!\n");
                 }
             }
-            catch (SQLException e){      
+            catch (SQLException | JSONException e){      
             }
         } while (loopUI);
     }  
