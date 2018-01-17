@@ -1,3 +1,4 @@
+package app;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -24,7 +25,8 @@ public class ConsolApp {
                     LogInUI.employeeLoginUI();
                     continue;
                 case 3:
-                    CustomerAccounts.mainUI();
+                    CustomerUI customerUI = new CustomerUI();
+                    customerUI.goToCustomerUI();
                     continue;
                 case 4:
                     System.out.println("Good bye");

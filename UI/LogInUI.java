@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package teamproject;
+
+
 
 import java.sql.SQLException;
 import java.util.Scanner;

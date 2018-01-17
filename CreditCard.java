@@ -1,4 +1,4 @@
-
+package app;
 public class CreditCard {
     private int CREDIT_ID;
     private int CUSTOMER_ID;
