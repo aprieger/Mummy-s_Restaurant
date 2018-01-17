@@ -7,17 +7,13 @@ import org.json.JSONObject;
 
 public class OrdersDataAccess {
     
-    //Date must be passed in this format "DD-MM-YY", double quotes included
+    //Date must be passed in this format "DD-MON-YYYY" == "12-JAN-2018", double quotes included
     public static ArrayList<JSONObject> getAllOrdersForToday(String deliveryDate) throws SQLException, JSONException{
         try {
             //query to be used to retrieve all rows from Orders
-            String sqlQuery = "select o.*, p.name, p.description, p.meal_category, " +
-                    "po.quantity " +
-                    "from orders o, pkgorders po, packages p" + 
-                    "where (o.order_id = po.order_id) and " + 
-                    "(po.package_id = p.package_id) " +
-                    "and o.delivery_date like '" + deliveryDate + "%' "+
-                    "group by o.order_id";
+            String sqlQuery = "select * " +
+                    "from orders "+ 
+                    "where delivery_date = '" + deliveryDate +"'";
             //established connectioned to oracle account through a driver
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
             //established a statement connection
@@ -344,5 +340,16 @@ public class OrdersDataAccess {
             System.out.println(se);
         }
         return 0;
+    }
+    
+    public static void main(String[] args) throws JSONException, SQLException{
+        try {
+            ArrayList<JSONObject> testArrayList = OrdersDataAccess.getAllOrdersForToday("12-JAN-2018");
+            System.out.println(testArrayList);
+        } catch(JSONException je) {
+            System.out.println(je);
+        } catch(SQLException se) {
+            System.out.println(se);
+        }
     }
 }
