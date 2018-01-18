@@ -1,5 +1,6 @@
 package app.UI;
 import app.*;
+import java.io.IOException;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -45,7 +46,9 @@ public class PackageOrderUI {
         switch (userInput) {
             //cash
             case 0:
+                try {
                 ConfirmationUI.mainConfirmationView(customerId);
+                } catch (IOException e) {System.out.println(e);}
             //credit
             case 1:
                 CreditCardUI.CustomerCreditView(customerId);

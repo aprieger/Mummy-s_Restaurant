@@ -75,7 +75,7 @@ public class ConfirmationUI {
                     String cityAddress ="";
                     String phoneNumber ="";
                     int areaCode;
-                    String orderDate = "";
+                    String orderDate = "16-feb-2018";
                     
                     
                     //will scan in for the user to type in
@@ -208,7 +208,7 @@ public class ConfirmationUI {
                     String cityAddress ="";
                     String phoneNumber ="";
                     int areaCode;
-                    String orderDate = "";
+                    String orderDate = "16-FEB-2018";
                     
                     //will scan in for the user to type in
                     Scanner sc = new Scanner(System.in);
