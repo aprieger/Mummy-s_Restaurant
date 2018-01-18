@@ -1,5 +1,6 @@
 package app.UI;
 import app.*;
+import java.io.IOException;
 
 
 
@@ -36,7 +37,9 @@ public class CreditCardUI {
 
                     cc.addCard(CREDIT_ID,CUSTOMER_ID, CARD_NUMBER,BRAND,SECURITY_NUMBER,EXPERATION_DATE,NAME_ON_CARD,STREET,CITY,AREA_CODE);
                     card = cc.getCreditCardsByCredit_idAsArrayList(CREDIT_ID);
-                    confirmation.mainConfirmationView(card.get(0).getCUSTOMER_ID(),card.get(0).getCREDIT_ID());
+                    try {
+                        confirmation.mainConfirmationView(card.get(0).getCUSTOMER_ID(),card.get(0).getCREDIT_ID());
+                    } catch (IOException ex) {System.out.println(ex);}
                     
                     
                 case 2:
@@ -48,7 +51,9 @@ public class CreditCardUI {
                     System.out.println("Please enter the Credit_ID of the card you would like to use");
                     userInput = scanner.nextInt();
                     card = cc.getCreditCardsByCredit_idAsArrayList(userInput);
-                    confirmation.mainConfirmationView(card.get(0).getCUSTOMER_ID(),card.get(0).getCREDIT_ID());
+                    try {
+                        confirmation.mainConfirmationView(card.get(0).getCUSTOMER_ID(),card.get(0).getCREDIT_ID());
+                    } catch (IOException ex) {System.out.println(ex);}
                     
                 default:
                     break;
