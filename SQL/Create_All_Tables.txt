@@ -1,0 +1,82 @@
+CREATE TABLE CustomerAccounts(
+Customer_id int NOT NULL PRIMARY KEY,
+First_Name varchar2(25),
+Last_Name varchar2(50),
+Street varchar2(100),
+City varchar2(75),
+State varchar(2),
+Area_Code int,
+Phone_Number varchar2(12),
+Username varchar2(25),
+Password varchar2(25),
+enabled int
+);
+
+CREATE TABLE CREDIT_CARDS (
+CREDIT_ID INT NOT NULL PRIMARY KEY,
+CUSTOMER_ID INT REFERENCES CUSTOMERACCOUNTS (CUSTOMER_ID),
+CARD_NUMBER INT,
+BRAND VARCHAR2(255),
+SECURITY_NUMBER INT,
+EXPERATION_DATE DATE,
+NAME_ON_CARD VARCHAR2(255),
+STREET VARCHAR2(255),
+CITY VARCHAR2(255),
+AREA_CODE INT
+);
+
+CREATE TABLE ORDERS (
+ORDER_ID INT NOT NULL PRIMARY KEY,
+CUSTOMER_ID INT REFERENCES CUSTOMERACCOUNTS (CUSTOMER_ID),
+CREDIT_ID INT,
+PAYMENT_TYPE INT,
+TOTAL_PRICE NUMERIC(20,2),
+STREET VARCHAR2(255),
+CITY VARCHAR2(255),
+AREA_CODE INT,
+PHONE_NUMBER VARCHAR2(30),
+DELIVERY_DATE TIMESTAMP,
+ORDER_DATE TIMESTAMP,
+ORDER_STATUS INT
+);
+
+CREATE TABLE Packages(
+Package_Id INT NOT NULL PRIMARY KEY,
+Name VARCHAR2(50),
+Description VARCHAR2(1000),
+Meal_Category NUMBER(2),
+Image_Source VARCHAR2(100),
+Price FLOAT(126),
+Is_Special NUMBER(2),
+Meal_Type NUMBER(2)
+);
+
+CREATE TABLE SERVICEAREAS (
+AREA_ID INT NOT NULL PRIMARY KEY,
+PACKAGE_ID INT REFERENCES PACKAGES(PACKAGE_ID),
+NAME VARCHAR2(50),
+AREA_CODE INT,
+TAX_RATE FLOAT(126)
+);
+
+Create table Workers (
+employee_id integer not null primary key, 
+first_name varchar2(50),
+last_name varchar2(75),
+user_id varchar2(20),
+password varchar2(20),
+phone_number varchar2(20),
+is_admin integer,
+is_active integer
+);
+
+CREATE TABLE PkgOrders(
+Pkg_Order_Id INT NOT NULL PRIMARY KEY,
+Order_Id INT,
+Package_Id INT REFERENCES Packages(Package_Id),
+Customer_Id INT REFERENCES CustomerAccounts(Customer_Id),
+Price_Per_Pkg FLOAT(126),
+Quantity NUMBER(5), 
+Is_Open NUMBER(2)
+);
+
